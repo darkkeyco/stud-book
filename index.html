@@ -301,7 +301,7 @@ legend{padding:0 6px}
     <div class="fgrid">
       <div class="field" style="grid-column:span 2">
         <label for="f_species">Species</label>
-        <input id="f_species" list="speciesList" required placeholder="Start typing — Rex, Shadowmane, Tusoteuthis…" autocomplete="off">
+        <input id="f_species" list="speciesList" required placeholder="Rex, Aberrant Dire Bear, Tek Quetzal, X-Spino…" autocomplete="off">
         <datalist id="speciesList"></datalist>
       </div>
       <div class="field">
@@ -466,6 +466,21 @@ function resolveColor(v){
 
 /* ============ ASA tameable species ============ */
 const ASA_SPECIES=["Achatina","Acrocanthosaurus","Allosaurus","Amargasaurus","Andrewsarchus","Anglerfish","Ankylosaurus","Araneo","Archaeopteryx","Archelon","Argentavis","Armadoggo","Arthropluera","Astrocetus","Astrodelphis","Aureliax","Autumn Drakeling","Baryonyx","Basilisk","Basilosaurus","Beelzebufo","Bison","Bloodstalker","Boaratos","Brontosaurus","Bulbdog","Burrowbuck","Carbonemys","Carcharodontosaurus","Carnotaurus","Castoroides","Cat","Ceratosaurus","Chalicotherium","Compy","Concavenator","Cosmo","Cryolophosaurus","Daeodon","Deinonychus","Deinosuchus","Deinotherium","Desmodus","Dilophosaur","Dimetrodon","Dimorphodon","Dinopithecus","Diplocaulus","Diplodocus","Dire Bear","Direwolf","Dodo","Doedicurus","Dreadmare","Dreadnoughtus","Dung Beetle","Dunkleosteus","Elderclaw","Electrophorus","Equus","Fasolasuchus","Featherlight","Ferox","Fire Wyvern","Gacha","Gallimimus","Gasbags","Giant Queen Bee","Gigadesmodus","Giganotosaurus","Gigantopithecus","Gigantoraptor","Glowtail","Grand Tortugar","Griffin","Helicoprion","Hesperornis","Hyaenodon","Ice Wyvern","Ichthyornis","Ichthyosaurus","Iguanodon","Jerboa","Kairuku","Kaprosuchus","Karkinos","Kentrosaurus","Lightning Wyvern","Liopleurodon","Lumina","Lymantria","Lystrosaurus","Maeguana","Maewing","Magmasaur","Malwyn","Mammoth","Managarmr","Manta","Mantis","Megachelon","Megalania","Megaloceros","Megalodon","Megalosaurus","Meganeura","Megaraptor","Megatherium","Mesopithecus","Microraptor","Morellatops","Mosasaurus","Moschops","Noglin","Oasisaur","Onyc","Ossidon","Otter","Oviraptor","Ovis","Pachy","Pachyrhinosaurus","Paraceratherium","Parasaur","Parrot","Pegomastax","Pelagornis","Phiomia","Phoenix","Plesiosaur","Poison Wyvern","Procoptodon","Pteranodon","Pulmonoscorpius","Purlovia","Pyromane","Quetzal","Raptor","Ravager","Reaper King","Rex","Rhyniognatha","Rock Drake","Rock Elemental","Roll Rat","Sabertooth","Sarco","Shadowmane","Shastasaurus","Shinehorn","Sinomacrops","Snow Owl","Solwyn","Spino","Spring Drakeling","Stegosaurus","Summer Drakeling","Tapejara","Tek Stryder","Terror Bird","Therizinosaur","Thorny Dragon","Thylacoleo","Tidepup","Titanoboa","Titanosaur","Triceratops","Troodon","Tropeognathus","Tusoteuthis","Umbra","Veilwyn","Velonasaur","Voidwyrm","Vulture","Winter Drakeling","Woolly Rhino","Xiphactinus","Yi Ling","Yutyrannus"];
+
+/* Variants count as separate species -- Original, Tek, Aberrant and X cannot
+   cross-breed, so each one gets its own entry and its own pair-readiness row.
+   R variants arrive with Genesis Part 2; add an R_VARIANT list here when they do. */
+/* creatures with an Aberrant form */
+const ABERRANT_OF=["Achatina","Anglerfish","Ankylosaurus","Araneo","Arthropluera","Baryonyx","Beelzebufo","Carbonemys","Carnotaurus","Concavenator","Deinosuchus","Dimetrodon","Dimorphodon","Diplocaulus","Diplodocus","Dire Bear","Dodo","Doedicurus","Dung Beetle","Electrophorus","Equus","Fasolasuchus","Gigantopithecus","Gigantoraptor","Iguanodon","Lystrosaurus","Manta","Megalania","Megalosaurus","Meganeura","Moschops","Otter","Oviraptor","Ovis","Paraceratherium","Parasaur","Pulmonoscorpius","Purlovia","Raptor","Sarco","Spino","Stegosaurus","Titanoboa","Triceratops"];
+/* creatures with a Tek form */
+const TEK_OF=["Giganotosaurus","Parasaur","Quetzal","Raptor","Rex","Stegosaurus","Triceratops"];
+/* creatures with a Genesis X form */
+const X_OF=["Acrocanthosaurus","Allosaurus","Ankylosaurus","Archelon","Argentavis","Basilosaurus","Concavenator","Cryolophosaurus","Deinosuchus","Dunkleosteus","Helicoprion","Ichthyosaurus","Megalodon","Mosasaurus","Otter","Paraceratherium","Parasaur","Raptor","Rex","Rock Elemental","Sabertooth","Spino","Tapejara","Triceratops","Woolly Rhino","Xiphactinus","Yutyrannus"];
+const ALL_SPECIES=[...ASA_SPECIES,
+  ...ABERRANT_OF.map(n=>"Aberrant "+n),
+  ...TEK_OF.map(n=>"Tek "+n),
+  ...X_OF.map(n=>"X-"+n)
+].sort((a,b)=>a.localeCompare(b));
 
 const REGION_LABELS=["Region 0","Region 1","Region 2","Region 3","Region 4","Region 5"];
 const LOCATIONS=["Cryo","OnlyMans","OnlyMans Aquatic","OnlyMans Drachennest"];
@@ -838,7 +853,7 @@ function renderRoster(){
 }
 
 function renderSpeciesList(){
-  const all=[...new Set([...studs.map(s=>s.species).filter(Boolean),...ASA_SPECIES])]
+  const all=[...new Set([...studs.map(s=>s.species).filter(Boolean),...ALL_SPECIES])]
     .sort((a,b)=>a.localeCompare(b));
   document.getElementById("speciesList").innerHTML=all.map(s=>`<option value="${esc(s)}"></option>`).join("");
 }
