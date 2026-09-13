@@ -1,0 +1,1045 @@
+<title>Grix's Stud Book</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --void:#06090A;
+  --pit:#0C1210;
+  --pit2:#111917;
+  --rim:#1E2A24;
+  --claw:#A4E82E;
+  --claw-hot:#D4FF5A;
+  --claw-deep:#4E7A0E;
+  --bone:#E6F0E1;
+  --fog:#8B9C88;
+  --fog-dim:#5D6B5B;
+  --cryo:#5CC9FF;
+  --rust:#FF5C3B;
+  --amber:#FFB020;
+  --shadow:0 18px 40px -24px #000;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --display:"Anton","Barlow Condensed",Impact,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--void);color:var(--bone);
+  font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 520px at 12% -10%, #A4E82E14, transparent 70%),
+    radial-gradient(700px 400px at 96% 4%, #5CC9FF0D, transparent 70%);
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 20px 80px}
+
+header{display:flex;align-items:flex-end;gap:20px;padding:26px 0 20px;flex-wrap:wrap}
+.headmain{display:flex;align-items:flex-end;gap:18px;flex:1 1 440px;flex-wrap:wrap}
+.grix{flex:0 0 auto;position:relative;align-self:flex-end;line-height:0}
+.grix img{height:230px;width:auto;display:block;position:relative;z-index:1}
+.grix::before{
+  content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,#A4E82E38,#A4E82E10 55%,transparent 72%);
+}
+/* he stands on the rule that closes the header */
+.grix::after{
+  content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+  width:150px;height:8px;border-radius:50%;background:radial-gradient(ellipse,#000000cc,transparent 70%);
+  z-index:2;
+}
+.mark{flex:none;width:52px;height:60px;filter:drop-shadow(0 0 14px #A4E82E55)}
+.titleblock h1{
+  font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,54px);
+  letter-spacing:.02em;line-height:.92;margin:0;text-transform:uppercase;text-wrap:balance;
+}
+.titleblock h1 em{font-style:normal;color:var(--claw)}
+.titleblock p{margin:6px 0 0;color:var(--fog);font-size:13.5px;max-width:54ch}
+.headtools{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+button{font-family:inherit;font-size:13px;cursor:pointer;border-radius:2px}
+.btn{
+  background:transparent;border:1px solid var(--rim);color:var(--fog);
+  padding:8px 14px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  transition:border-color .14s,color .14s,background .14s;
+}
+.btn:hover{border-color:var(--claw-deep);color:var(--claw)}
+.btn.primary{background:var(--claw);border-color:var(--claw);color:#0A1400;font-weight:700}
+.btn.primary:hover{background:var(--claw-hot);border-color:var(--claw-hot)}
+.btn.danger:hover{border-color:var(--rust);color:var(--rust)}
+.btn.sm{padding:5px 10px;font-size:11px}
+:focus-visible{outline:2px solid var(--claw);outline-offset:2px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rim);border:1px solid var(--rim);margin-bottom:26px}
+.stat{background:var(--pit);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--display);font-size:32px;line-height:1;font-weight:400;color:var(--claw);font-variant-numeric:tabular-nums}
+.stat span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog-dim)}
+.stat.warn b{color:var(--amber)}
+.stat.cool b{color:var(--cryo)}
+
+.panel{border:1px solid var(--rim);background:var(--pit);margin-bottom:26px}
+.panel>.ph{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--rim);
+  background:linear-gradient(90deg,#A4E82E10,transparent 60%);flex-wrap:wrap}
+.panel>.ph h2{font-family:var(--display);font-weight:400;font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.panel>.ph .sub{color:var(--fog-dim);font-size:12px}
+.panel>.ph .spacer{margin-left:auto}
+.pbody{padding:16px}
+
+/* ---------- colorway rows ---------- */
+.cwlist{display:flex;flex-direction:column;gap:1px;background:var(--rim);border:1px solid var(--rim)}
+.cw{background:var(--pit2);padding:12px 14px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;border-left:3px solid var(--rim)}
+.cw .namefield{flex:0 0 150px}
+.regstrip{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 380px}
+.regfield{display:flex;flex-direction:column;gap:5px;flex:1 1 96px;min-width:96px}
+.regfield label,.field label,legend{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--fog-dim)}
+.swatchwrap{position:relative;display:flex;align-items:center}
+.swatchwrap .chip{position:absolute;left:7px;width:13px;height:13px;border-radius:50%;border:1px solid #ffffff2e;pointer-events:none}
+input,select,textarea{
+  font-family:inherit;font-size:13px;background:#070B0A;color:var(--bone);
+  border:1px solid var(--rim);border-radius:2px;padding:7px 9px;width:100%;
+}
+.swatchwrap input{padding-left:27px}
+input:focus,select:focus,textarea:focus{border-color:var(--claw-deep);outline:none;box-shadow:0 0 0 2px #A4E82E1f}
+input::placeholder,textarea::placeholder{color:#4A554A}
+textarea{resize:vertical;min-height:74px;line-height:1.45}
+.accentdots{display:flex;gap:4px}
+.accentdots button{width:16px;height:16px;border-radius:50%;border:1px solid #ffffff22;padding:0}
+.accentdots button[aria-pressed=true]{box-shadow:0 0 0 2px var(--void),0 0 0 3px currentColor}
+.hint{font-size:11.5px;color:var(--fog-dim);margin:12px 0 0;max-width:78ch}
+.hint code{font-family:var(--mono);font-size:11px;color:var(--fog)}
+
+/* ---------- readiness ---------- */
+.cwblock{margin-bottom:18px}
+.cwblock:last-child{margin-bottom:0}
+.cwhead{display:flex;align-items:center;gap:10px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--rim)}
+.cwhead .dot{width:11px;height:11px;border-radius:50%;flex:none}
+.cwhead .nm{font-family:var(--display);font-size:15px;letter-spacing:.06em;text-transform:uppercase;line-height:1}
+.cwhead .tally{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--fog-dim)}
+.cwhead .swatches{display:flex;gap:3px}
+.program{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:9px}
+.prog{border:1px solid var(--rim);background:var(--pit2);padding:10px 12px;display:flex;flex-direction:column;gap:7px;border-left:3px solid var(--rim)}
+.prog.ready{border-left-color:var(--claw)}
+.prog.half{border-left-color:var(--amber)}
+.prog .sp{font-family:var(--display);font-size:15px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.prog .sexes{display:flex;gap:5px;font-family:var(--mono);font-size:11.5px;flex-wrap:wrap}
+.sexpill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--rim);padding:2px 7px;color:var(--fog-dim)}
+.sexpill.has{color:var(--bone);border-color:var(--claw-deep)}
+.sexpill .m{color:var(--cryo)}
+.sexpill .f{color:#FF7BC4}
+.prog .verdict{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.prog.ready .verdict{color:var(--claw)}
+.prog.half .verdict{color:var(--amber)}
+.empty{color:var(--fog-dim);font-size:13px;padding:6px 0;margin:0}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.filters input[type=search]{width:210px}
+.filters select{width:auto;min-width:118px}
+.chiprow{display:flex;gap:5px;flex-wrap:wrap}
+.chip-t{border:1px solid var(--rim);background:transparent;color:var(--fog);
+  padding:6px 11px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.chip-t[aria-pressed=true]{background:var(--claw);border-color:var(--claw);color:#0A1400}
+.chip-t.cryo[aria-pressed=true]{background:var(--cryo);border-color:var(--cryo)}
+
+.group{border:1px solid var(--rim);background:var(--pit);margin-bottom:8px}
+.ghead{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:transparent;
+  border:0;padding:12px 15px;color:inherit;flex-wrap:wrap;cursor:pointer;list-style:none}
+.ghead::-webkit-details-marker{display:none}
+.ghead:hover{background:#A4E82E08}
+.ghead .caret{color:var(--fog-dim);font-size:11px;width:10px;flex:none;transition:transform .15s}
+.group[open] .ghead .caret{transform:rotate(90deg)}
+.ghead .name{font-family:var(--display);font-size:19px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.ghead .meta{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:11px;border:1px solid var(--rim);padding:2px 7px;color:var(--fog);white-space:nowrap}
+.tag.m{color:var(--cryo);border-color:#5CC9FF33}
+.tag.f{color:#FF7BC4;border-color:#FF7BC433}
+.tag.lvl{color:var(--bone)}
+.tag.gap{color:var(--rust);border-color:#FF5C3B44}
+.cwtag{font-family:var(--mono);font-size:10px;padding:1px 6px;font-weight:700;letter-spacing:.05em;color:#0A1400;white-space:nowrap}
+
+.tablewrap{overflow-x:auto;border-top:1px solid var(--rim)}
+table{border-collapse:collapse;width:100%;min-width:820px}
+th{text-align:left;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--fog-dim);
+  font-weight:600;padding:9px 12px;border-bottom:1px solid var(--rim);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid #16201C;vertical-align:top;font-size:13.5px}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#A4E82E07}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.sex-m{color:var(--cryo);font-weight:700}
+.sex-f{color:#FF7BC4;font-weight:700}
+.regs{display:flex;gap:3px}
+.reg{width:15px;height:15px;border-radius:2px;border:1px solid #ffffff26;flex:none}
+.reg.blank{border-style:dashed;border-color:#33403366;background:transparent}
+.reg.hit{box-shadow:0 0 0 1px currentColor,0 0 7px currentColor}
+.loc{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--fog)}
+.loc.cryoloc{color:var(--cryo)}
+.note{color:var(--fog);font-size:12.5px;max-width:32ch;line-height:1.4}
+.rowbtns{display:flex;gap:4px;justify-content:flex-end}
+.mini{background:transparent;border:1px solid var(--rim);color:var(--fog-dim);padding:3px 8px;font-size:11px}
+.mini:hover{border-color:var(--claw-deep);color:var(--claw)}
+.mini.del:hover{border-color:var(--rust);color:var(--rust)}
+
+.banner{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px dashed #FFB02055;
+  background:#FFB0200A;padding:10px 14px;margin-bottom:20px;font-size:13px;color:var(--amber)}
+.banner .spacer{margin-left:auto}
+.status{font-size:11.5px;color:var(--fog-dim);letter-spacing:.05em}
+.status.warn{color:var(--amber)}
+
+dialog{border:1px solid var(--rim);background:var(--pit);color:var(--bone);padding:0;
+  width:min(720px,94vw);box-shadow:var(--shadow);border-radius:2px}
+dialog::backdrop{background:#020403cc}
+.mhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--rim);
+  background:linear-gradient(90deg,#A4E82E12,transparent 65%)}
+.mhead h3{font-family:var(--display);font-weight:400;font-size:19px;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.mhead .spacer{margin-left:auto}
+form.mform{padding:18px;display:flex;flex-direction:column;gap:15px;max-height:72vh;overflow-y:auto}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:5px}
+fieldset{border:1px solid var(--rim);border-radius:2px;padding:12px;margin:0}
+legend{padding:0 6px}
+.newcw{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;padding:12px 14px;
+  border:1px dashed var(--claw-deep);background:#A4E82E08}
+.newcwbtns{display:flex;gap:6px;margin-left:auto}
+.checkline{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fog);cursor:pointer;padding-bottom:6px}
+.checkline input{width:15px;height:15px;accent-color:var(--claw);padding:0;flex:none}
+.mfoot{display:flex;gap:8px;align-items:center;padding:14px 18px;border-top:1px solid var(--rim);background:#0A0F0D}
+.mfoot .spacer{margin-left:auto}
+
+@media (max-width:860px){ .grix img{height:170px} }
+@media (max-width:640px){
+  .grix{display:none}
+  .ghead .meta{margin-left:0;width:100%}
+  .headtools{width:100%;margin-left:0}
+  .cw .namefield{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="headmain">
+  <svg class="mark" viewBox="0 0 52 60" aria-hidden="true">
+    <path d="M8 2 C13 16 15 34 12 58 C6 40 4 20 8 2 Z" fill="#A4E82E"/>
+    <path d="M26 0 C31 16 32 36 28 60 C21 40 21 18 26 0 Z" fill="#A4E82E"/>
+    <path d="M44 2 C48 20 46 40 40 58 C37 34 39 16 44 2 Z" fill="#A4E82E"/>
+  </svg>
+  <div class="titleblock">
+    <h1>Grix&rsquo;s<br><em>Stud Book</em></h1>
+    <p>ARK breeding stock — every colorway on the go, who's in it, and which pairs are short a mate.</p>
+  </div>
+  <div class="headtools">
+    <span class="status" id="status">Loading…</span>
+    <button class="btn" id="exportBtn">Export CSV</button>
+    <button class="btn primary" id="addBtn">+ Add stud</button>
+  </div>
+  </div>
+  <div class="grix"><img src="grix.png" alt="Grix, in his green and black kit" width="218" height="520"></div>
+</header>
+
+
+<div class="stats" id="stats"></div>
+
+<section class="panel">
+  <div class="ph">
+    <h2>Colorways</h2>
+    <span class="sub">the target pattern for each line — regions left blank count as "any"</span>
+    <span class="spacer"></span>
+    <button class="btn sm" id="addCw">+ Add colorway</button>
+    <button class="btn sm primary" id="saveCw">Save</button>
+  </div>
+  <div class="pbody">
+    <div class="cwlist" id="cwlist"></div>
+    <p class="hint">Type the ARK colour ID straight off the dino (<code>27</code>) or the name (<code>Dino Dark Green</code>) — the dropdown shows both, and an ID fills itself in as the name. Swatches use the game's own sRGB values for colour IDs 1&ndash;100. A stud's regions glow in its line's colour when they hit the target.</p>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph">
+    <h2>Pair Readiness</h2>
+    <span class="sub">by line, then species — assigned stock only</span>
+  </div>
+  <div class="pbody" id="readiness"></div>
+</section>
+
+<div class="filters">
+  <input type="search" id="q" placeholder="Search species, tag, notes…" aria-label="Search studs">
+  <select id="cwF" aria-label="Filter by colorway"></select>
+  <select id="sexF" aria-label="Filter by sex">
+    <option value="">Both sexes</option>
+    <option value="M">Males only</option>
+    <option value="F">Females only</option>
+  </select>
+  <select id="sortF" aria-label="Sort studs">
+    <option value="level">Highest level first</option>
+    <option value="name">By tag A–Z</option>
+    <option value="added">Newest first</option>
+  </select>
+  <div class="chiprow" id="locChips"></div>
+  <button class="chip-t" id="gapOnly" aria-pressed="false">Missing a pair</button>
+</div>
+
+<div id="roster"></div>
+</div>
+
+<dialog id="editor">
+  <div class="mhead">
+    <h3 id="mtitle">Add stud</h3>
+    <span class="spacer"></span>
+    <button class="btn" id="closeX" type="button">Close</button>
+  </div>
+  <form class="mform" id="studForm">
+    <div class="fgrid">
+      <div class="field" style="grid-column:span 2">
+        <label for="f_species">Species</label>
+        <input id="f_species" list="speciesList" required placeholder="Start typing — Rex, Shadowmane, Tusoteuthis…" autocomplete="off">
+        <datalist id="speciesList"></datalist>
+      </div>
+      <div class="field">
+        <label for="f_name">Tag / name</label>
+        <input id="f_name" placeholder="Venom 3">
+      </div>
+      <div class="field">
+        <label for="f_sex">Sex</label>
+        <select id="f_sex"><option value="M">Male</option><option value="F">Female</option></select>
+      </div>
+      <div class="field">
+        <label for="f_level">Level</label>
+        <input id="f_level" type="number" min="1" max="500" step="1" placeholder="450">
+      </div>
+      <div class="field">
+        <label for="f_cw">Colorway</label>
+        <select id="f_cw"></select>
+      </div>
+    </div>
+
+    <div class="newcw" id="newCwBox" hidden>
+      <div class="field" style="flex:1 1 190px">
+        <label for="newCwName">Name the new line</label>
+        <input id="newCwName" placeholder="Blood, Albino, Ghost…" autocomplete="off">
+      </div>
+      <div class="field" style="flex:0 0 auto">
+        <label>Tint</label>
+        <div class="accentdots" id="newCwAcc"></div>
+      </div>
+      <label class="checkline" id="seedLine"><input type="checkbox" id="newCwSeed"> Use this dino's colours as the target pattern</label>
+      <div class="newcwbtns">
+        <button type="button" class="btn sm" id="newCwCancel">Cancel</button>
+        <button type="button" class="btn sm primary" id="newCwCreate">Create line</button>
+      </div>
+    </div>
+
+    <fieldset>
+      <legend>Colour regions</legend>
+      <div class="fgrid" id="formRegions"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Location</legend>
+      <div class="chiprow" id="formLoc"></div>
+    </fieldset>
+
+    <div class="field">
+      <label for="f_notes">Notes</label>
+      <textarea id="f_notes" placeholder="Mutation count, stat lines, who it came from, what it still needs…"></textarea>
+    </div>
+  </form>
+  <div class="mfoot">
+    <button class="btn danger" id="deleteBtn" type="button" hidden>Delete</button>
+    <span class="spacer"></span>
+    <button class="btn" id="cancelBtn" type="button">Cancel</button>
+    <button class="btn primary" id="saveBtn" type="button">Save stud</button>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script>
+/* ============ ARK creature colour IDs 1-100 ============
+   Names and sRGB hex values as published on the ARK Official Community Wiki
+   (Color IDs). IDs 128+ are dye/paint shades and never appear on a creature,
+   so they are deliberately left out. */
+const ARK_COLORS=[
+  [1,"Red","#FF0000"],[2,"Blue","#0000FF"],[3,"Green","#00FF00"],[4,"Yellow","#FFFF00"],
+  [5,"Cyan","#00FFFF"],[6,"Magenta","#FF00FF"],[7,"Light Green","#C0FFBA"],[8,"Light Grey","#C8CACA"],
+  [9,"Light Brown","#786759"],[10,"Light Orange","#FFB46C"],[11,"Light Yellow","#FFFA8A"],
+  [12,"Light Red","#FF756C"],[13,"Dark Grey","#7B7B7B"],[14,"Black","#3B3B3B"],[15,"Brown","#593A2A"],
+  [16,"Dark Green","#224900"],[17,"Dark Red","#812118"],[18,"White","#FFFFFF"],
+  [19,"Dino Light Red","#FFA8A8"],[20,"Dino Dark Red","#592B2B"],[21,"Dino Light Orange","#FFB694"],
+  [22,"Dino Dark Orange","#88532F"],[23,"Dino Light Yellow","#CACAA0"],[24,"Dino Dark Yellow","#94946C"],
+  [25,"Dino Light Green","#E0FFE0"],[26,"Dino Medium Green","#799479"],[27,"Dino Dark Green","#224122"],
+  [28,"Dino Light Blue","#D9E0FF"],[29,"Dino Dark Blue","#394263"],[30,"Dino Light Purple","#E4D9FF"],
+  [31,"Dino Dark Purple","#403459"],[32,"Dino Light Brown","#FFE0BA"],[33,"Dino Medium Brown","#948575"],
+  [34,"Dino Dark Brown","#594E41"],[35,"Dino Darker Grey","#595959"],[36,"Dino Albino","#FFFFFF"],
+  [37,"BigFoot0","#B79683"],[38,"BigFoot4","#EADAD5"],[39,"BigFoot5","#D0A794"],
+  [40,"WolfFur","#C3B39F"],[41,"DarkWolfFur","#887666"],[42,"DragonBase0","#A0664B"],
+  [43,"DragonBase1","#CB7956"],[44,"DragonFire","#BC4F00"],[45,"DragonGreen0","#79846C"],
+  [46,"DragonGreen1","#909C79"],[47,"DragonGreen2","#A5A48B"],[48,"DragonGreen3","#74939C"],
+  [49,"WyvernPurple0","#787496"],[50,"WyvernPurple1","#B0A2C0"],[51,"WyvernBlue0","#6281A7"],
+  [52,"WyvernBlue1","#485C75"],[53,"Dino Medium Blue","#5FA4EA"],[54,"Dino Deep Blue","#4568D4"],
+  [55,"NearWhite","#EDEDED"],[56,"NearBlack","#515151"],[57,"DarkTurquoise","#184546"],
+  [58,"MediumTurquoise","#007060"],[59,"Turquoise","#00C5AB"],[60,"GreenSlate","#40594C"],
+  [61,"Sage","#3E4F40"],[62,"DarkWarmGray","#3B3938"],[63,"MediumWarmGray","#585554"],
+  [64,"LightWarmGray","#9B9290"],[65,"DarkCement","#525B56"],[66,"LightCement","#8AA196"],
+  [67,"LightPink","#E8B0FF"],[68,"DeepPink","#FF119A"],[69,"DarkViolet","#730046"],
+  [70,"DarkMagenta","#B70042"],[71,"BurntSienna","#7E331E"],[72,"MediumAutumn","#A93000"],
+  [73,"Vermillion","#EF3100"],[74,"Coral","#FF5834"],[75,"Orange","#FF7F00"],[76,"Peach","#FFA73A"],
+  [77,"LightAutumn","#AE7000"],[78,"Mustard","#949427"],[79,"ActualBlack","#171717"],
+  [80,"MidnightBlue","#191D36"],[81,"DarkBlue","#152B3A"],[82,"BlackSands","#302531"],
+  [83,"LemonLime","#A8FF44"],[84,"Mint","#38E985"],[85,"Jade","#008840"],[86,"PineGreen","#0F552E"],
+  [87,"SpruceGreen","#005B45"],[88,"LeafGreen","#5B9725"],[89,"DarkLavender","#5E275F"],
+  [90,"MediumLavender","#853587"],[91,"Lavender","#BD77BE"],[92,"DarkTeal","#0E404A"],
+  [93,"MediumTeal","#105563"],[94,"Teal","#14849C"],[95,"PowderBlue","#82A7FF"],
+  [96,"Glacial","#ACEAFF"],[97,"Cammo","#505118"],[98,"DryMoss","#766E3F"],
+  [99,"Custard","#C0BD5E"],[100,"Cream","#F4FFC0"]
+].map(([id,name,hex])=>({id,name,hex}));
+
+const BY_ID=new Map(ARK_COLORS.map(c=>[c.id,c]));
+const BY_NAME=new Map(ARK_COLORS.map(c=>[c.name.toLowerCase(),c]));
+
+/* Accepts an ID ("27"), a name ("Dino Dark Green"), or a name with the ID or
+   hex appended, which is how a datalist pick can come back in some browsers. */
+function resolveColor(v){
+  if(v===null||v===undefined) return null;
+  let s=String(v).trim();
+  if(!s) return null;
+  if(/^\d{1,3}$/.test(s)) return BY_ID.get(+s)||null;
+  const named=BY_NAME.get(s.toLowerCase());
+  if(named) return named;
+  const stripped=s.replace(/\s*(?:\(?\bID\s*\d{1,3}\)?|#[0-9a-f]{6})\s*$/i,"").trim();
+  return BY_NAME.get(stripped.toLowerCase())||null;
+}
+
+/* ============ ASA tameable species ============ */
+const ASA_SPECIES=["Achatina","Acrocanthosaurus","Allosaurus","Amargasaurus","Andrewsarchus","Anglerfish","Ankylosaurus","Araneo","Archaeopteryx","Archelon","Argentavis","Armadoggo","Arthropluera","Astrocetus","Astrodelphis","Aureliax","Autumn Drakeling","Baryonyx","Basilisk","Basilosaurus","Beelzebufo","Bison","Bloodstalker","Boaratos","Brontosaurus","Bulbdog","Burrowbuck","Carbonemys","Carcharodontosaurus","Carnotaurus","Castoroides","Cat","Ceratosaurus","Chalicotherium","Compy","Concavenator","Cosmo","Cryolophosaurus","Daeodon","Deinonychus","Deinosuchus","Deinotherium","Desmodus","Dilophosaur","Dimetrodon","Dimorphodon","Dinopithecus","Diplocaulus","Diplodocus","Dire Bear","Direwolf","Dodo","Doedicurus","Dreadmare","Dreadnoughtus","Dung Beetle","Dunkleosteus","Elderclaw","Electrophorus","Equus","Fasolasuchus","Featherlight","Ferox","Fire Wyvern","Gacha","Gallimimus","Gasbags","Giant Queen Bee","Gigadesmodus","Giganotosaurus","Gigantopithecus","Gigantoraptor","Glowtail","Grand Tortugar","Griffin","Helicoprion","Hesperornis","Hyaenodon","Ice Wyvern","Ichthyornis","Ichthyosaurus","Iguanodon","Jerboa","Kairuku","Kaprosuchus","Karkinos","Kentrosaurus","Lightning Wyvern","Liopleurodon","Lumina","Lymantria","Lystrosaurus","Maeguana","Maewing","Magmasaur","Malwyn","Mammoth","Managarmr","Manta","Mantis","Megachelon","Megalania","Megaloceros","Megalodon","Megalosaurus","Meganeura","Megaraptor","Megatherium","Mesopithecus","Microraptor","Morellatops","Mosasaurus","Moschops","Noglin","Oasisaur","Onyc","Ossidon","Otter","Oviraptor","Ovis","Pachy","Pachyrhinosaurus","Paraceratherium","Parasaur","Parrot","Pegomastax","Pelagornis","Phiomia","Phoenix","Plesiosaur","Poison Wyvern","Procoptodon","Pteranodon","Pulmonoscorpius","Purlovia","Pyromane","Quetzal","Raptor","Ravager","Reaper King","Rex","Rhyniognatha","Rock Drake","Rock Elemental","Roll Rat","Sabertooth","Sarco","Shadowmane","Shastasaurus","Shinehorn","Sinomacrops","Snow Owl","Solwyn","Spino","Spring Drakeling","Stegosaurus","Summer Drakeling","Tapejara","Tek Stryder","Terror Bird","Therizinosaur","Thorny Dragon","Thylacoleo","Tidepup","Titanoboa","Titanosaur","Triceratops","Troodon","Tropeognathus","Tusoteuthis","Umbra","Veilwyn","Velonasaur","Voidwyrm","Vulture","Winter Drakeling","Woolly Rhino","Xiphactinus","Yi Ling","Yutyrannus"];
+
+const REGION_LABELS=["Region 0","Region 1","Region 2","Region 3","Region 4","Region 5"];
+const LOCATIONS=["Cryo","OnlyMans","OnlyMans Aquatic","OnlyMans Drachennest"];
+const ACCENTS=["#A4E82E","#5CC9FF","#FF7BC4","#FFB020","#B98BFF","#FF6A3D","#3FE0C0","#E8F06A"];
+
+function colorHex(v){
+  const c=resolveColor(v);
+  if(c) return c.hex;
+  const s=String(v||"").trim();
+  if(/^#?[0-9a-f]{6}$/i.test(s)) return s[0]==="#"?s:"#"+s;
+  if(/^#?[0-9a-f]{3}$/i.test(s)){const h=s.replace("#","");return "#"+h[0]+h[0]+h[1]+h[1]+h[2]+h[2];}
+  return null;
+}
+// what a region is called on screen and in the CSV
+function colorLabel(v){
+  const c=resolveColor(v);
+  return c?`${c.name} (ID ${c.id})`:String(v||"").trim();
+}
+// first colour claiming each hex, so a typed hex compares equal to its ARK colour
+const BY_HEX=new Map();
+ARK_COLORS.forEach(c=>{ if(!BY_HEX.has(c.hex)) BY_HEX.set(c.hex,c); });
+// comparison key: "27", "Dino Dark Green" and "#224122" are all ID 27
+function ckey(v){
+  const c=resolveColor(v);
+  if(c) return "id:"+c.id;
+  const hex=colorHex(v);
+  if(!hex) return String(v||"").trim().toLowerCase();
+  const byHex=BY_HEX.get(hex.toUpperCase());
+  return byHex?"id:"+byHex.id:hex.toLowerCase();
+}
+const norm=v=>String(v||"").trim().toLowerCase();
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>(p||"s")+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ============ state ============ */
+let studs=[];
+let colorways=[];
+let db=null;
+const filters={q:"",cw:"",sex:"",sort:"level",locs:new Set(),gap:false};
+const openGroups=new Set();
+let editingId=null;
+
+const DEFAULT_CW=[
+  {id:"monster",name:"Monster",accent:"#A4E82E",regions:["Dino Dark Green","Black","Dino Dark Green","Black","LemonLime","Black"]}
+];
+
+
+/* ============ storage ============
+   Rows live in Supabase. The book key rides in the URL fragment (#k=...), which
+   browsers never send to the web host, and goes to Supabase as a request header.
+   Row-level security keys every read and write to it: no key, no rows. */
+const SUPABASE_URL="https://pjmrvstaopgeuhumwmbo.supabase.co";
+const SUPABASE_KEY="sb_publishable_XpF8efH4KDyscAdwCD5MOw_THE8ctj0";
+const LS_S="cwsb.studs", LS_C="cwsb.colorways", LS_K="cwsb.key";
+
+function readBookKey(){
+  const m=(location.hash||"").match(/[#&]k=([A-Za-z0-9_-]{8,64})/);
+  if(m){ try{ localStorage.setItem(LS_K,m[1]); }catch(e){} return m[1]; }
+  try{ return localStorage.getItem(LS_K)||""; }catch(e){ return ""; }
+}
+const BOOK_KEY=readBookKey();
+let sb=null, online=false;
+
+function saveLocal(){ try{
+  localStorage.setItem(LS_S,JSON.stringify(studs));
+  localStorage.setItem(LS_C,JSON.stringify(colorways));
+}catch(e){} }
+function loadLocal(){ try{
+  const s=localStorage.getItem(LS_S), c=localStorage.getItem(LS_C);
+  if(s) studs=JSON.parse(s)||[];
+  if(c) colorways=JSON.parse(c)||[];
+  return !!s;
+}catch(e){ return false; } }
+
+function migrate(s){
+  if(s && s.monster!==undefined){ s.cw=s.monster?"monster":""; delete s.monster; }
+  if(!("cw" in s)) s.cw="";
+  return s;
+}
+function setStatus(txt,warn){
+  const el=document.getElementById("status");
+  el.textContent=txt; el.classList.toggle("warn",!!warn);
+}
+const rowOf=s=>({
+  id:s.id, book_key:BOOK_KEY, species:s.species||"", name:s.name||"", sex:s.sex||"M",
+  level:s.level===null||s.level===undefined||s.level===""?null:+s.level,
+  colors:s.colors||[], cw:s.cw||"", location:s.location||"", notes:s.notes||"",
+  added:s.added||Date.now()
+});
+const studOf=r=>migrate({
+  id:r.id, species:r.species, name:r.name, sex:r.sex, level:r.level,
+  colors:Array.isArray(r.colors)?r.colors:[], cw:r.cw, location:r.location,
+  notes:r.notes, added:r.added
+});
+
+async function persistStud(s){
+  studs=studs.filter(x=>x.id!==s.id).concat([s]);
+  render(); saveLocal();
+  if(!sb) return;
+  const {error}=await sb.from("studs").upsert(rowOf(s));
+  if(error) setStatus("Saved on this device only — "+error.message,true);
+  else setStatus("Saved");
+}
+async function removeStud(id){
+  studs=studs.filter(x=>x.id!==id);
+  render(); saveLocal();
+  if(!sb) return;
+  const {error}=await sb.from("studs").delete().eq("id",id);
+  if(error) setStatus("Deleted here, but not on the server — "+error.message,true);
+}
+async function persistColorways(){
+  saveLocal();
+  if(!sb) return;
+  const rows=colorways.map((c,i)=>({
+    book_key:BOOK_KEY, id:c.id, name:c.name||"", accent:c.accent||"#A4E82E",
+    regions:c.regions||[], ord:i
+  }));
+  const keep=rows.map(r=>r.id);
+  const {error}=await sb.from("colorways").upsert(rows);
+  if(error){ setStatus("Colorways saved on this device only — "+error.message,true); return; }
+  // drop any line removed since the last save
+  let del=sb.from("colorways").delete().eq("book_key",BOOK_KEY);
+  if(keep.length) del=del.not("id","in","("+keep.map(k=>'"'+k+'"').join(",")+")");
+  await del;
+}
+
+async function pullAll(quiet){
+  if(!sb) return;
+  const [sr,cr]=await Promise.all([
+    sb.from("studs").select("*").eq("book_key",BOOK_KEY),
+    sb.from("colorways").select("*").eq("book_key",BOOK_KEY).order("ord")
+  ]);
+  if(sr.error||cr.error){
+    online=false;
+    setStatus("Offline — showing the last copy on this device",true);
+    return;
+  }
+  online=true;
+  studs=(sr.data||[]).map(studOf);
+  if((cr.data||[]).length){
+    colorways=cr.data.map(r=>({id:r.id,name:r.name,accent:r.accent,
+      regions:Array.isArray(r.regions)?r.regions:["","","","","",""]}));
+  }
+  saveLocal(); renderColorways(); render();
+  if(!quiet) setStatus("Synced");
+}
+
+/* ============ derived ============ */
+const cwById=id=>colorways.find(c=>c.id===id)||null;
+function targetCount(cw){ return cw?cw.regions.filter(r=>ckey(r)).length:0; }
+function matchCount(s){
+  const cw=cwById(s.cw); if(!cw) return 0;
+  let hits=0;
+  for(let i=0;i<6;i++){
+    const t=ckey(cw.regions[i]); if(!t) continue;
+    if(ckey((s.colors||[])[i])===t) hits++;
+  }
+  return hits;
+}
+function bySpecies(list){
+  const map=new Map();
+  list.forEach(s=>{
+    const k=s.species||"Unlisted";
+    if(!map.has(k)) map.set(k,[]);
+    map.get(k).push(s);
+  });
+  return [...map.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+}
+const hasPair=l=>l.some(s=>s.sex==="M")&&l.some(s=>s.sex==="F");
+
+/* ============ stats ============ */
+function renderStats(){
+  let ready=0, gaps=0;
+  colorways.forEach(cw=>{
+    bySpecies(studs.filter(s=>s.cw===cw.id)).forEach(([,l])=>{ hasPair(l)?ready++:gaps++; });
+  });
+  const inCryo=studs.filter(s=>s.location==="Cryo").length;
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><b>${studs.length}</b><span>Studs on the book</span></div>
+    <div class="stat"><b>${new Set(studs.map(s=>s.species||"Unlisted")).size}</b><span>Species</span></div>
+    <div class="stat"><b>${colorways.length}</b><span>Colorways</span></div>
+    <div class="stat"><b>${ready}</b><span>Pairs ready</span></div>
+    <div class="stat warn"><b>${gaps}</b><span>Lines missing a mate</span></div>
+    <div class="stat cool"><b>${inCryo}</b><span>Sitting in cryo</span></div>`;
+}
+
+/* ============ colorway editor ============ */
+function renderColorways(){
+  const el=document.getElementById("cwlist");
+  if(!colorways.length){
+    el.innerHTML=`<div class="cw"><p class="empty">No colorways yet. Add one and give it a target pattern.</p></div>`;
+    return;
+  }
+  el.innerHTML=colorways.map((cw,ci)=>`
+    <div class="cw" style="border-left-color:${cw.accent}">
+      <div class="regfield namefield">
+        <label for="cwn${ci}">Line name</label>
+        <input id="cwn${ci}" class="cwname" data-ci="${ci}" value="${esc(cw.name)}" placeholder="Monster">
+      </div>
+      <div class="regstrip">
+        ${REGION_LABELS.map((lab,i)=>{
+          const hex=colorHex(cw.regions[i]);
+          return `<div class="regfield">
+            <label for="cwr${ci}_${i}">${lab.replace("Region ","R")}</label>
+            <div class="swatchwrap">
+              <span class="chip" style="background:${hex||"transparent"};${hex?"":"border-style:dashed"}"></span>
+              <input id="cwr${ci}_${i}" class="cwreg" data-ci="${ci}" data-ri="${i}" list="colorList" value="${esc(cw.regions[i]||"")}" placeholder="any">
+            </div></div>`;
+        }).join("")}
+      </div>
+      <div class="regfield" style="flex:0 0 auto">
+        <label>Tint</label>
+        <div class="accentdots">${ACCENTS.map(a=>
+          `<button type="button" class="cwacc" data-ci="${ci}" data-acc="${a}" style="background:${a};color:${a}" aria-pressed="${cw.accent===a}" aria-label="Tint ${a}"></button>`).join("")}</div>
+      </div>
+      <button type="button" class="btn sm danger cwdel" data-ci="${ci}">Remove</button>
+    </div>`).join("");
+
+  el.querySelectorAll(".cwname").forEach(inp=>inp.addEventListener("input",e=>{
+    colorways[+e.target.dataset.ci].name=e.target.value;
+  }));
+  el.querySelectorAll(".cwreg").forEach(inp=>inp.addEventListener("input",e=>{
+    colorways[+e.target.dataset.ci].regions[+e.target.dataset.ri]=e.target.value;
+    const hex=colorHex(e.target.value), chip=e.target.previousElementSibling;
+    chip.style.background=hex||"transparent";
+    chip.style.borderStyle=hex?"solid":"dashed";
+  }));
+  el.querySelectorAll(".cwacc").forEach(b=>b.addEventListener("click",()=>{
+    colorways[+b.dataset.ci].accent=b.dataset.acc;
+    renderColorways();
+  }));
+  el.querySelectorAll(".cwdel").forEach(b=>b.addEventListener("click",()=>{
+    const cw=colorways[+b.dataset.ci];
+    const n=studs.filter(s=>s.cw===cw.id).length;
+    if(!confirm(`Remove the ${cw.name||"unnamed"} colorway?${n?` ${n} stud${n>1?"s":""} will be left unassigned — none are deleted.`:""}`)) return;
+    colorways.splice(+b.dataset.ci,1);
+    studs.filter(s=>s.cw===cw.id).forEach(s=>{ s.cw=""; persistStud(s); });
+    persistColorways(); renderColorways(); render();
+  }));
+}
+
+/* ============ readiness ============ */
+function renderReadiness(){
+  const el=document.getElementById("readiness");
+  if(!colorways.length){ el.innerHTML=`<p class="empty">Add a colorway above and assign studs to it.</p>`; return; }
+  el.innerHTML=colorways.map(cw=>{
+    const groups=bySpecies(studs.filter(s=>s.cw===cw.id));
+    const ready=groups.filter(([,l])=>hasPair(l)).length;
+    const swatches=cw.regions.map((r,i)=>{
+      const hex=colorHex(r);
+      return `<span class="reg ${hex?"":"blank"}" style="${hex?"background:"+hex:""};width:11px;height:11px" title="${esc(REGION_LABELS[i]+": "+(r?colorLabel(r):"any"))}"></span>`;
+    }).join("");
+    const body=groups.length?`<div class="program">${groups.map(([sp,list])=>{
+      const males=list.filter(s=>s.sex==="M"), females=list.filter(s=>s.sex==="F");
+      const cls=males.length&&females.length?"ready":"half";
+      const verdict=cls==="ready"?"Pair ready":(males.length?"Needs a female":"Needs a male");
+      const bestM=males.length?Math.max(...males.map(s=>+s.level||0)):0;
+      const bestF=females.length?Math.max(...females.map(s=>+s.level||0)):0;
+      return `<div class="prog ${cls}">
+        <span class="sp">${esc(sp)}</span>
+        <div class="sexes">
+          <span class="sexpill ${males.length?"has":""}"><span class="m">&#9794;</span> ${males.length}${bestM?" &middot; lv "+bestM:""}</span>
+          <span class="sexpill ${females.length?"has":""}"><span class="f">&#9792;</span> ${females.length}${bestF?" &middot; lv "+bestF:""}</span>
+        </div>
+        <span class="verdict">${verdict}</span></div>`;
+    }).join("")}</div>`:`<p class="empty">Nothing assigned to this line yet.</p>`;
+    return `<div class="cwblock">
+      <div class="cwhead">
+        <span class="dot" style="background:${cw.accent}"></span>
+        <span class="nm">${esc(cw.name||"Unnamed line")}</span>
+        <span class="swatches">${swatches}</span>
+        <span class="tally">${ready}/${groups.length||0} species paired</span>
+      </div>${body}</div>`;
+  }).join("");
+}
+
+/* ============ roster ============ */
+function passesFilters(s){
+  if(filters.sex&&s.sex!==filters.sex) return false;
+  if(filters.cw==="__none"){ if(s.cw) return false; }
+  else if(filters.cw&&s.cw!==filters.cw) return false;
+  if(filters.locs.size&&!filters.locs.has(s.location)) return false;
+  if(filters.q){
+    const cw=cwById(s.cw);
+    const hay=[s.species,s.name,s.notes,s.location,cw?cw.name:"",(s.colors||[]).join(" ")].join(" ").toLowerCase();
+    if(!hay.includes(filters.q)) return false;
+  }
+  return true;
+}
+function renderRoster(){
+  const el=document.getElementById("roster");
+  let groups=bySpecies(studs.filter(passesFilters));
+  if(filters.gap) groups=groups.filter(([,l])=>!hasPair(l));
+  if(!groups.length){
+    el.innerHTML=`<div class="panel"><div class="pbody"><p class="empty">${
+      studs.length?"No studs match those filters.":"The book is empty. Hit <strong>+ Add stud</strong> to put the first one in."
+    }</p></div></div>`;
+    return;
+  }
+  if(!openGroups.size) openGroups.add(groups.slice().sort((a,b)=>b[1].length-a[1].length)[0][0]);
+
+  el.innerHTML=groups.map(([sp,items])=>{
+    const sorted=[...items].sort((a,b)=>{
+      if(filters.sort==="name") return (a.name||"").localeCompare(b.name||"");
+      if(filters.sort==="added") return (b.added||0)-(a.added||0);
+      return (+b.level||0)-(+a.level||0);
+    });
+    const males=items.filter(s=>s.sex==="M").length;
+    const females=items.filter(s=>s.sex==="F").length;
+    const best=Math.max(0,...items.map(s=>+s.level||0));
+    const lines=[...new Set(items.map(s=>s.cw).filter(Boolean))].map(cwById).filter(Boolean);
+
+    const rows=sorted.map(s=>{
+      const cw=cwById(s.cw), t=targetCount(cw), hits=matchCount(s);
+      const accent=cw?cw.accent:"var(--claw)";
+      const regs=REGION_LABELS.map((_,i)=>{
+        const v=(s.colors||[])[i], hex=colorHex(v);
+        const hit=cw&&ckey(cw.regions[i])&&ckey(v)===ckey(cw.regions[i]);
+        return `<span class="reg ${hex?"":"blank"} ${hit?"hit":""}" style="${hex?"background:"+hex+";":""}${hit?"color:"+accent:""}" title="${esc(REGION_LABELS[i]+": "+(v?colorLabel(v):"unset"))}"></span>`;
+      }).join("");
+      return `<tr>
+        <td><strong>${esc(s.name||"—")}</strong></td>
+        <td>${cw?`<span class="cwtag" style="background:${cw.accent}">${esc(cw.name)}</span>`:'<span class="loc">—</span>'}</td>
+        <td class="num"><span class="sex-${s.sex==="F"?"f":"m"}">${s.sex==="F"?"&#9792;":"&#9794;"}</span></td>
+        <td class="num">${s.level?esc(s.level):"—"}</td>
+        <td><div class="regs">${regs}</div></td>
+        <td class="num">${t?hits+"/"+t:"—"}</td>
+        <td><span class="loc ${s.location==="Cryo"?"cryoloc":""}">${esc(s.location||"—")}</span></td>
+        <td><div class="note">${esc(s.notes||"")}</div></td>
+        <td><div class="rowbtns">
+          <button class="mini" data-edit="${s.id}">Edit</button>
+          <button class="mini del" data-del="${s.id}">Del</button>
+        </div></td></tr>`;
+    }).join("");
+
+    return `<details class="group"${openGroups.has(sp)?" open":""} data-sp="${esc(sp)}">
+      <summary class="ghead">
+        <span class="caret">&#9654;</span>
+        <span class="name">${esc(sp)}</span>
+        <span class="meta">
+          <span class="tag">${items.length} total</span>
+          <span class="tag m">&#9794; ${males}</span>
+          <span class="tag f">&#9792; ${females}</span>
+          <span class="tag lvl">top lv ${best||"—"}</span>
+          ${lines.map(c=>`<span class="cwtag" style="background:${c.accent}">${esc(c.name)}</span>`).join("")}
+          ${hasPair(items)?"":`<span class="tag gap">no pair</span>`}
+        </span>
+      </summary>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Tag</th><th>Line</th><th>Sex</th><th>Level</th><th>Regions 0–5</th><th>Match</th><th>Location</th><th>Notes</th><th></th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div></details>`;
+  }).join("");
+
+  el.querySelectorAll("details.group").forEach(d=>d.addEventListener("toggle",()=>{
+    d.open?openGroups.add(d.dataset.sp):openGroups.delete(d.dataset.sp);
+  }));
+  el.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditor(b.dataset.edit)));
+  el.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
+    const s=studs.find(x=>x.id===b.dataset.del);
+    if(s&&confirm(`Delete ${s.name||"this stud"} (${s.species})? This can't be undone.`)) removeStud(s.id);
+  }));
+}
+
+function renderSpeciesList(){
+  const all=[...new Set([...studs.map(s=>s.species).filter(Boolean),...ASA_SPECIES])]
+    .sort((a,b)=>a.localeCompare(b));
+  document.getElementById("speciesList").innerHTML=all.map(s=>`<option value="${esc(s)}"></option>`).join("");
+}
+function renderCwSelects(){
+  const opts=colorways.map(c=>`<option value="${esc(c.id)}">${esc(c.name||"Unnamed")}</option>`).join("");
+  const f=document.getElementById("cwF");
+  f.innerHTML=`<option value="">All colorways</option>${opts}<option value="__none">Unassigned</option>`;
+  f.value=filters.cw;
+  const fc=document.getElementById("f_cw");
+  const keep=fc.value;
+  fc.innerHTML=`<option value="">— none —</option>${opts}<option value="__new">+ New colorway…</option>`;
+  const box=document.getElementById("newCwBox");
+  fc.value=(keep==="__new"&&box&&box.hidden)?"":keep;
+}
+function render(){
+  renderStats(); renderReadiness(); renderRoster(); renderSpeciesList(); renderCwSelects();
+}
+
+/* ============ editor ============ */
+const dlg=document.getElementById("editor");
+function buildFormRegions(){
+  document.getElementById("formRegions").innerHTML=REGION_LABELS.map((lab,i)=>`
+    <div class="field">
+      <label for="fc${i}">${lab}</label>
+      <div class="swatchwrap">
+        <span class="chip" style="background:transparent;border-style:dashed"></span>
+        <input id="fc${i}" class="fcol" list="colorList" placeholder="unset" autocomplete="off">
+      </div></div>`).join("");
+  document.querySelectorAll(".fcol").forEach(inp=>inp.addEventListener("input",()=>{
+    const hex=colorHex(inp.value), chip=inp.previousElementSibling;
+    chip.style.background=hex||"transparent";
+    chip.style.borderStyle=hex?"solid":"dashed";
+  }));
+}
+function buildFormLoc(){
+  document.getElementById("formLoc").innerHTML=LOCATIONS.map(l=>
+    `<button type="button" class="chip-t ${l==="Cryo"?"cryo":""}" data-loc="${esc(l)}" aria-pressed="false">${esc(l)}</button>`).join("");
+  document.querySelectorAll("#formLoc [data-loc]").forEach(b=>b.addEventListener("click",()=>{
+    const turningOn=b.getAttribute("aria-pressed")!=="true";
+    document.querySelectorAll("#formLoc [data-loc]").forEach(o=>o.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed",String(turningOn));
+  }));
+}
+const setFormLoc=loc=>document.querySelectorAll("#formLoc [data-loc]")
+  .forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.loc===loc)));
+function getFormLoc(){
+  const b=document.querySelector('#formLoc [aria-pressed="true"]');
+  return b?b.dataset.loc:"";
+}
+function openEditor(id){
+  editingId=id||null;
+  const s=id?studs.find(x=>x.id===id):null;
+  const box=document.getElementById("newCwBox");
+  if(box){ box.hidden=true; document.getElementById("newCwName").value=""; }
+  renderCwSelects();
+  document.getElementById("mtitle").textContent=s?`Edit — ${s.name||s.species}`:"Add stud";
+  document.getElementById("f_species").value=s?s.species||"":"";
+  document.getElementById("f_name").value=s?s.name||"":"";
+  document.getElementById("f_sex").value=s?s.sex||"M":"M";
+  document.getElementById("f_level").value=s?s.level||"":"";
+  document.getElementById("f_cw").value=s?s.cw||"":"";
+  document.getElementById("f_notes").value=s?s.notes||"":"";
+  for(let i=0;i<6;i++){
+    const inp=document.getElementById("fc"+i);
+    inp.value=s&&s.colors?(s.colors[i]||""):"";
+    inp.dispatchEvent(new Event("input"));
+  }
+  setFormLoc(s?s.location:"");
+  document.getElementById("deleteBtn").hidden=!s;
+  dlg.showModal();
+  document.getElementById("f_species").focus();
+}
+function saveFromForm(){
+  const species=document.getElementById("f_species").value.trim();
+  if(!species){ document.getElementById("f_species").focus(); return; }
+  const prev=editingId?studs.find(x=>x.id===editingId):null;
+  const rec={
+    id:editingId||uid(),
+    species,
+    name:document.getElementById("f_name").value.trim(),
+    sex:document.getElementById("f_sex").value,
+    level:document.getElementById("f_level").value?+document.getElementById("f_level").value:null,
+    colors:REGION_LABELS.map((_,i)=>document.getElementById("fc"+i).value.trim()),
+    cw:document.getElementById("f_cw").value,
+    location:getFormLoc(),
+    notes:document.getElementById("f_notes").value.trim(),
+    added:prev?prev.added||Date.now():Date.now()
+  };
+  openGroups.add(species);
+  persistStud(rec);
+  dlg.close();
+}
+document.getElementById("saveBtn").addEventListener("click",saveFromForm);
+document.getElementById("studForm").addEventListener("submit",e=>{e.preventDefault();saveFromForm();});
+document.getElementById("cancelBtn").addEventListener("click",()=>dlg.close());
+document.getElementById("closeX").addEventListener("click",()=>dlg.close());
+document.getElementById("deleteBtn").addEventListener("click",()=>{
+  const s=studs.find(x=>x.id===editingId);
+  if(s&&confirm(`Delete ${s.name||"this stud"} (${s.species})? This can't be undone.`)){ removeStud(s.id); dlg.close(); }
+});
+document.getElementById("addBtn").addEventListener("click",()=>openEditor(null));
+
+/* ---- create a colorway without leaving the stud form ---- */
+const newCwBox=document.getElementById("newCwBox");
+let newCwAccent=ACCENTS[0];
+function paintAccentPicker(){
+  document.getElementById("newCwAcc").innerHTML=ACCENTS.map(a=>
+    `<button type="button" data-acc="${a}" style="background:${a};color:${a}" aria-pressed="${a===newCwAccent}" aria-label="Tint ${a}"></button>`).join("");
+  document.querySelectorAll("#newCwAcc button").forEach(b=>b.addEventListener("click",()=>{
+    newCwAccent=b.dataset.acc; paintAccentPicker();
+  }));
+}
+function closeNewCw(){
+  newCwBox.hidden=true;
+  document.getElementById("newCwName").value="";
+}
+document.getElementById("f_cw").addEventListener("change",e=>{
+  if(e.target.value!=="__new"){ closeNewCw(); return; }
+  newCwAccent=ACCENTS[colorways.length%ACCENTS.length];
+  paintAccentPicker();
+  // only offer to seed the pattern when this dino actually has colours entered
+  const anyColour=REGION_LABELS.some((_,i)=>document.getElementById("fc"+i).value.trim());
+  document.getElementById("seedLine").hidden=!anyColour;
+  document.getElementById("newCwSeed").checked=anyColour;
+  newCwBox.hidden=false;
+  document.getElementById("newCwName").focus();
+});
+document.getElementById("newCwCancel").addEventListener("click",()=>{
+  closeNewCw();
+  document.getElementById("f_cw").value="";
+});
+document.getElementById("newCwCreate").addEventListener("click",()=>{
+  const nameEl=document.getElementById("newCwName");
+  const name=nameEl.value.trim();
+  if(!name){ nameEl.focus(); return; }
+  if(colorways.some(c=>norm(c.name)===norm(name))){
+    alert(`There's already a line called ${name}. Pick it from the dropdown instead.`);
+    nameEl.focus(); return;
+  }
+  const seed=document.getElementById("newCwSeed").checked && !document.getElementById("seedLine").hidden;
+  const cw={
+    id:uid("cw"), name, accent:newCwAccent,
+    regions:REGION_LABELS.map((_,i)=>seed?document.getElementById("fc"+i).value.trim():"")
+  };
+  colorways.push(cw);
+  persistColorways(); renderColorways(); renderCwSelects();
+  document.getElementById("f_cw").value=cw.id;
+  closeNewCw();
+  renderStats(); renderReadiness();
+});
+document.getElementById("newCwName").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ e.preventDefault(); document.getElementById("newCwCreate").click(); }
+});
+
+/* ============ controls ============ */
+document.getElementById("q").addEventListener("input",e=>{filters.q=e.target.value.trim().toLowerCase();renderRoster();});
+document.getElementById("cwF").addEventListener("change",e=>{filters.cw=e.target.value;renderRoster();});
+document.getElementById("sexF").addEventListener("change",e=>{filters.sex=e.target.value;renderRoster();});
+document.getElementById("sortF").addEventListener("change",e=>{filters.sort=e.target.value;renderRoster();});
+document.getElementById("locChips").innerHTML=LOCATIONS.map(l=>
+  `<button class="chip-t ${l==="Cryo"?"cryo":""}" data-loc="${esc(l)}" aria-pressed="false">${esc(l)}</button>`).join("");
+document.querySelectorAll("#locChips [data-loc]").forEach(b=>b.addEventListener("click",()=>{
+  const l=b.dataset.loc, on=b.getAttribute("aria-pressed")==="true";
+  b.setAttribute("aria-pressed",String(!on));
+  on?filters.locs.delete(l):filters.locs.add(l);
+  renderRoster();
+}));
+document.getElementById("gapOnly").addEventListener("click",e=>{
+  filters.gap=!filters.gap;
+  e.currentTarget.setAttribute("aria-pressed",String(filters.gap));
+  renderRoster();
+});
+document.getElementById("addCw").addEventListener("click",()=>{
+  colorways.push({id:uid("cw"),name:"New line",accent:ACCENTS[colorways.length%ACCENTS.length],regions:["","","","","",""]});
+  persistColorways(); renderColorways(); render();
+});
+document.getElementById("saveCw").addEventListener("click",()=>{
+  persistColorways(); render();
+  setStatus(db?"Colorways saved":"Colorways saved on this device");
+});
+
+/* ============ colour datalist ============ */
+const dl=document.createElement("datalist"); dl.id="colorList";
+// value = the name that lands in the field; label = the in-game colour ID
+dl.innerHTML=ARK_COLORS.map(c=>
+  `<option value="${esc(c.name)}" label="ID ${c.id}"></option>`).join("");
+document.body.appendChild(dl);
+
+/* Typing a bare ID is the fast path — he reads "27" off the dino in game.
+   On blur, rewrite it to the colour's name so the stored data stays readable. */
+function canonicalizeColorField(inp){
+  const c=resolveColor(inp.value);
+  if(c&&inp.value.trim()!==c.name){ inp.value=c.name; inp.dispatchEvent(new Event("input")); }
+}
+document.addEventListener("blur",e=>{
+  const t=e.target;
+  if(t&&t.classList&&(t.classList.contains("fcol")||t.classList.contains("cwreg"))) canonicalizeColorField(t);
+},true);
+
+/* ============ CSV ============ */
+function toCSV(){
+  const head=["Species","Tag","Colorway","Sex","Level","Region 0","Region 1","Region 2","Region 3","Region 4","Region 5","Pattern match","Location","Notes"];
+  const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+  const rows=[...studs].sort((a,b)=>(a.species||"").localeCompare(b.species||"")||(+b.level||0)-(+a.level||0))
+    .map(s=>{
+      const cw=cwById(s.cw), t=targetCount(cw);
+      return [s.species,s.name,cw?cw.name:"",s.sex,s.level,
+        ...REGION_LABELS.map((_,i)=>colorLabel((s.colors||[])[i])),
+        t?matchCount(s)+"/"+t:"",s.location,s.notes].map(q).join(",");
+    });
+  return [head.map(q).join(","),...rows].join("\r\n");
+}
+document.getElementById("exportBtn").addEventListener("click",()=>{
+  const blob=new Blob(["﻿"+toCSV()],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="grix-stud-book.csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+
+/* ============ boot ============ */
+loadLocal();
+if(!colorways.length) colorways=JSON.parse(JSON.stringify(DEFAULT_CW));
+studs=studs.map(migrate);
+buildFormRegions(); buildFormLoc(); renderColorways(); render();
+
+(async()=>{
+  if(!BOOK_KEY){
+    setStatus("This link is missing its key — ask Tara for the full link",true);
+    return;
+  }
+  setStatus("Connecting…");
+  if(!window.supabase||!window.supabase.createClient){
+    setStatus("Couldn't load the database library — check the connection",true);
+    return;
+  }
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+    auth:{persistSession:false},
+    global:{headers:{"x-book-key":BOOK_KEY}}
+  });
+
+  await pullAll();
+  if(!online) return;
+
+  // an empty book gets the starting colorway so the page is usable on first open
+  if(!colorways.length){
+    colorways=JSON.parse(JSON.stringify(DEFAULT_CW));
+    await persistColorways();
+    renderColorways(); render();
+  }
+
+  // pick up the other person's changes without a manual reload
+  let pulling=false;
+  async function refresh(){
+    if(pulling||document.hidden||dlg.open) return;
+    const a=document.activeElement;
+    if(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA"||a.tagName==="SELECT")) return;
+    pulling=true;
+    try{ await pullAll(true); }finally{ pulling=false; }
+  }
+  setInterval(refresh,20000);
+  window.addEventListener("focus",refresh);
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) refresh(); });
+})();
+</script>
