@@ -169,9 +169,17 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .sex-m{color:var(--cryo);font-weight:700}
 .sex-f{color:#FF7BC4;font-weight:700}
 .regs{display:flex;gap:3px}
-.reg{width:15px;height:15px;border-radius:2px;border:1px solid #ffffff26;flex:none}
+.reg{width:15px;height:15px;border-radius:2px;border:1px solid #ffffff26;flex:none;position:relative}
 .reg.blank{border-style:dashed;border-color:#33403366;background:transparent}
 .reg.hit{box-shadow:0 0 0 1px currentColor,0 0 7px currentColor}
+/* a mutation-only colour wears a pip in the corner */
+.reg.dye::after,.chip.dye::after{
+  content:"";position:absolute;top:-3px;right:-3px;width:6px;height:6px;border-radius:50%;
+  background:var(--bone);box-shadow:0 0 0 1.5px var(--void);
+}
+.chip.dye::after{top:-2px;right:-2px;width:5px;height:5px}
+.leg{display:flex;align-items:center;gap:7px;margin-top:10px;font-size:11.5px;color:var(--fog-dim)}
+.leg .reg{width:13px;height:13px;background:#7F00FF}
 .loc{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--fog)}
 .loc.cryoloc{color:var(--cryo)}
 .note{color:var(--fog);font-size:12.5px;max-width:32ch;line-height:1.4}
@@ -250,7 +258,8 @@ legend{padding:0 6px}
   </div>
   <div class="pbody">
     <div class="cwlist" id="cwlist"></div>
-    <p class="hint">Type the ARK colour ID straight off the dino (<code>27</code>) or the name (<code>Dino Dark Green</code>) — the dropdown shows both, and an ID fills itself in as the name. Swatches use the game's own sRGB values for colour IDs 1&ndash;100. A stud's regions glow in its line's colour when they hit the target.</p>
+    <p class="hint">Type the ARK colour ID straight off the dino (<code>27</code>) or the name (<code>Dino Dark Green</code>) — the dropdown shows both, and an ID fills itself in as the name. All 227 game colours are in there with their own sRGB values. A stud's regions glow in its line's colour when they hit the target.</p>
+    <p class="leg"><span class="reg dye"></span> A pip marks a mutation-only colour — IDs 128&ndash;254 never appear on a wild creature, so a region wearing one came from a colour mutation.</p>
   </div>
 </section>
 
@@ -354,10 +363,11 @@ legend{padding:0 6px}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
 <script>
-/* ============ ARK creature colour IDs 1-100 ============
-   Names and sRGB hex values as published on the ARK Official Community Wiki
-   (Color IDs). IDs 128+ are dye/paint shades and never appear on a creature,
-   so they are deliberately left out. */
+/* ============ ARK colour IDs ============
+   All 227, with names and sRGB hex values as published on the ARK Official
+   Community Wiki (Color IDs), Survival Ascended table. 1-100 are the natural
+   creature colours; 128-254 are dye shades reachable only through a colour
+   mutation. There is no 101-127 -- the numbering skips it. */
 const ARK_COLORS=[
   [1,"Red","#FF0000"],[2,"Blue","#0000FF"],[3,"Green","#00FF00"],[4,"Yellow","#FFFF00"],
   [5,"Cyan","#00FFFF"],[6,"Magenta","#FF00FF"],[7,"Light Green","#C0FFBA"],[8,"Light Grey","#C8CACA"],
@@ -390,8 +400,53 @@ const ARK_COLORS=[
   [90,"MediumLavender","#853587"],[91,"Lavender","#BD77BE"],[92,"DarkTeal","#0E404A"],
   [93,"MediumTeal","#105563"],[94,"Teal","#14849C"],[95,"PowderBlue","#82A7FF"],
   [96,"Glacial","#ACEAFF"],[97,"Cammo","#505118"],[98,"DryMoss","#766E3F"],
-  [99,"Custard","#C0BD5E"],[100,"Cream","#F4FFC0"]
-].map(([id,name,hex])=>({id,name,hex}));
+  [99,"Custard","#C0BD5E"],[100,"Cream","#F4FFC0"],
+  /* 128-254 are the dye shades. They never appear on a wild creature -- a colour
+     mutation is the only way a dino wears one, so they are flagged as mutation-only. */
+  [128,"Burn Coloring","#360000",1],[129,"Scab Coloring","#660000",1],[130,"Gore Coloring","#B20000",1],
+  [131,"Red Coloring","#FF0000",1],[132,"Tulip Coloring","#FF7272",1],[133,"Salmon Coloring","#FFBEBE",1],
+  [134,"Incense Coloring","#D88C8C",1],[135,"Edocha Coloring","#A55454",1],[136,"Bronze Coloring","#361F00",1],
+  [137,"Terracotta Coloring","#663600",1],[138,"Windsor Coloring","#B25900",1],[139,"Orange Coloring","#FF7E00",1],
+  [140,"Cantaloupe Coloring","#FFB872",1],[141,"Peach Coloring","#FFDEBE",1],[142,"Latte Coloring","#D8B28C",1],
+  [143,"Dirt Coloring","#A57B54",1],[144,"Drab Coloring","#363600",1],[145,"Olive Coloring","#666600",1],
+  [146,"Citron Coloring","#B1B200",1],[147,"Yellow Coloring","#FFFF00",1],[148,"Canary Coloring","#FFFF72",1],
+  [149,"Buttermilk Coloring","#FFFFBE",1],[150,"Khaki Coloring","#D8D88C",1],[151,"Mold Coloring","#A5A554",1],
+  [152,"Swamp Coloring","#1F3600",1],[153,"Avocado Coloring","#366600",1],[154,"Orc Coloring","#59B200",1],
+  [155,"Chartreuse Coloring","#7FFF00",1],[156,"Menthol Coloring","#B8FF72",1],[157,"Nyanza Coloring","#DEFFBE",1],
+  [158,"Putrescence Coloring","#B2D88C",1],[159,"Filth Coloring","#7BA554",1],[160,"Nori Coloring","#003600",1],
+  [161,"Hunter Coloring","#006600",1],[162,"Emerald Coloring","#00B200",1],[163,"Green Coloring","#00FF00",1],
+  [164,"Mint Coloring","#72FF72",1],[165,"Pistachio Coloring","#BEFFBE",1],[166,"Celadon Coloring","#8CD88C",1],
+  [167,"Chateau Coloring","#54A554",1],[168,"Jungle Coloring","#003620",1],[169,"Forest Coloring","#006636",1],
+  [170,"Lagoon Coloring","#00B259",1],[171,"Spring Coloring","#00FF7F",1],[172,"Aquamarine Coloring","#72FFB8",1],
+  [173,"Seafoam Coloring","#BEFFDE",1],[174,"Turquoise Coloring","#8CD8B2",1],[175,"Shamrock Coloring","#54A57B",1],
+  [176,"Mariana Coloring","#003636",1],[177,"Skobeloff Coloring","#006666",1],[178,"Teal Coloring","#00B2B2",1],
+  [179,"Cyan Coloring","#00FFFF",1],[180,"Electricity Coloring","#72FFFF",1],[181,"Celeste Coloring","#BEFFFF",1],
+  [182,"Crystal Coloring","#8CD8D8",1],[183,"Ocean Coloring","#54A5A5",1],[184,"Cetecean Coloring","#002036",1],
+  [185,"Prussian Coloring","#003666",1],[186,"Sapphire Coloring","#0059B2",1],[187,"Azure Coloring","#007EFF",1],
+  [188,"Babyblue Coloring","#72B8FF",1],[189,"Cornflower Coloring","#BEDEFF",1],[190,"Overcast Coloring","#8BB1D8",1],
+  [191,"Moonstone Coloring","#547BA5",1],[192,"Midnight Coloring","#000036",1],[193,"Navy Coloring","#000066",1],
+  [194,"Cobalt Coloring","#0000B2",1],[195,"Blue Coloring","#0000FF",1],[196,"Denim Coloring","#7272FF",1],
+  [197,"Ice Coloring","#BEBEFF",1],[198,"Frost Coloring","#8B8BD8",1],[199,"Deepfreeze Coloring","#5454A5",1],
+  [200,"Twilight Coloring","#1F0036",1],[201,"Eminence Coloring","#360066",1],[202,"Indigo Coloring","#5900B2",1],
+  [203,"Violet Coloring","#7F00FF",1],[204,"Lilac Coloring","#B872FF",1],[205,"Lavender Coloring","#DEBEFF",1],
+  [206,"Mauve Coloring","#B28CD8",1],[207,"Royalty Coloring","#7B54A5",1],[208,"Eggplant Coloring","#360036",1],
+  [209,"Plum Coloring","#660066",1],[210,"Purple Coloring","#B100B2",1],[211,"Magenta Coloring","#FF00FF",1],
+  [212,"Pink Coloring","#FF72FF",1],[213,"Cottoncandy Coloring","#FFBEFF",1],[214,"Orchid Coloring","#D88CD8",1],
+  [215,"Bruise Coloring","#A554A5",1],[216,"Raisin Coloring","#36001F",1],[217,"Tyrian Coloring","#660036",1],
+  [218,"Lust Coloring","#B20059",1],[219,"Fuschia Coloring","#FF007E",1],[220,"Flamingo Coloring","#FF72B8",1],
+  [221,"Valentine Coloring","#FFBEDE",1],[222,"Kobi Coloring","#D88CB2",1],[223,"Rouge Coloring","#A5547B",1],
+  [224,"Black Coloring","#1F1F1F",1],[225,"Shadow Coloring","#363636",1],[226,"Charcoal Coloring","#4E4E4E",1],
+  [227,"Gunmetal Coloring","#666666",1],[228,"Slate Coloring","#7F7F7F",1],[229,"Steel Coloring","#989898",1],
+  [230,"Grey Coloring","#B2B2B2",1],[231,"Silver Coloring","#CBCBCB",1],[232,"Wisp Coloring","#E6E6E6",1],
+  [233,"White Coloring","#FFFFFF",1],[234,"Mud Coloring","#423726",1],[235,"Bark Coloring","#594828",1],
+  [236,"Brown Coloring","#7F6430",1],[237,"Leather Coloring","#98813F",1],[238,"Camel Coloring","#B29B59",1],
+  [239,"Tan Coloring","#CBB166",1],[240,"Sand Coloring","#E6C872",1],[241,"Parchment Coloring","#FFEFBE",1],
+  [242,"Cream Coloring","#F5F5DB",1],[243,"Brick Coloring","#98452A",1],[244,"Tangerine Coloring","#FFA328",1],
+  [245,"Gold Coloring","#FFBF00",1],[246,"Mustard Coloring","#F0F035",1],[247,"Craggy-Dew Coloring","#B2E919",1],
+  [248,"Grass Coloring","#277233",1],[249,"Stream Coloring","#2EC5B5",1],[250,"Marine Coloring","#007088",1],
+  [251,"Haze Coloring","#545871",1],[252,"Dusk Coloring","#8E4FA4",1],[253,"Thistle Coloring","#E6C2DC",1],
+  [254,"Bubblegum Coloring","#FFBECE",1]
+].map(([id,name,hex,dye])=>({id,name,hex,dye:!!dye}));
 
 const BY_ID=new Map(ARK_COLORS.map(c=>[c.id,c]));
 const BY_NAME=new Map(ARK_COLORS.map(c=>[c.name.toLowerCase(),c]));
@@ -427,7 +482,16 @@ function colorHex(v){
 // what a region is called on screen and in the CSV
 function colorLabel(v){
   const c=resolveColor(v);
-  return c?`${c.name} (ID ${c.id})`:String(v||"").trim();
+  if(!c) return String(v||"").trim();
+  return `${c.name} (ID ${c.id}${c.dye?", mutation only":""})`;
+}
+const isDye=v=>{ const c=resolveColor(v); return !!(c&&c.dye); };
+function paintChip(inp){
+  const hex=colorHex(inp.value), chip=inp.previousElementSibling;
+  if(!chip) return;
+  chip.style.background=hex||"transparent";
+  chip.style.borderStyle=hex?"solid":"dashed";
+  chip.classList.toggle("dye",isDye(inp.value));
 }
 // first colour claiming each hex, so a typed hex compares equal to its ARK colour
 const BY_HEX=new Map();
@@ -634,9 +698,7 @@ function renderColorways(){
   }));
   el.querySelectorAll(".cwreg").forEach(inp=>inp.addEventListener("input",e=>{
     colorways[+e.target.dataset.ci].regions[+e.target.dataset.ri]=e.target.value;
-    const hex=colorHex(e.target.value), chip=e.target.previousElementSibling;
-    chip.style.background=hex||"transparent";
-    chip.style.borderStyle=hex?"solid":"dashed";
+    paintChip(e.target);
   }));
   el.querySelectorAll(".cwacc").forEach(b=>b.addEventListener("click",()=>{
     colorways[+b.dataset.ci].accent=b.dataset.acc;
@@ -661,7 +723,7 @@ function renderReadiness(){
     const ready=groups.filter(([,l])=>hasPair(l)).length;
     const swatches=cw.regions.map((r,i)=>{
       const hex=colorHex(r);
-      return `<span class="reg ${hex?"":"blank"}" style="${hex?"background:"+hex:""};width:11px;height:11px" title="${esc(REGION_LABELS[i]+": "+(r?colorLabel(r):"any"))}"></span>`;
+      return `<span class="reg ${hex?"":"blank"} ${isDye(r)?"dye":""}" style="${hex?"background:"+hex:""};width:11px;height:11px" title="${esc(REGION_LABELS[i]+": "+(r?colorLabel(r):"any"))}"></span>`;
     }).join("");
     const body=groups.length?`<div class="program">${groups.map(([sp,list])=>{
       const males=list.filter(s=>s.sex==="M"), females=list.filter(s=>s.sex==="F");
@@ -729,7 +791,7 @@ function renderRoster(){
       const regs=REGION_LABELS.map((_,i)=>{
         const v=(s.colors||[])[i], hex=colorHex(v);
         const hit=cw&&ckey(cw.regions[i])&&ckey(v)===ckey(cw.regions[i]);
-        return `<span class="reg ${hex?"":"blank"} ${hit?"hit":""}" style="${hex?"background:"+hex+";":""}${hit?"color:"+accent:""}" title="${esc(REGION_LABELS[i]+": "+(v?colorLabel(v):"unset"))}"></span>`;
+        return `<span class="reg ${hex?"":"blank"} ${hit?"hit":""} ${isDye(v)?"dye":""}" style="${hex?"background:"+hex+";":""}${hit?"color:"+accent:""}" title="${esc(REGION_LABELS[i]+": "+(v?colorLabel(v):"unset"))}"></span>`;
       }).join("");
       return `<tr>
         <td><strong>${esc(s.name||"—")}</strong></td>
@@ -805,11 +867,7 @@ function buildFormRegions(){
         <span class="chip" style="background:transparent;border-style:dashed"></span>
         <input id="fc${i}" class="fcol" list="colorList" placeholder="unset" autocomplete="off">
       </div></div>`).join("");
-  document.querySelectorAll(".fcol").forEach(inp=>inp.addEventListener("input",()=>{
-    const hex=colorHex(inp.value), chip=inp.previousElementSibling;
-    chip.style.background=hex||"transparent";
-    chip.style.borderStyle=hex?"solid":"dashed";
-  }));
+  document.querySelectorAll(".fcol").forEach(inp=>inp.addEventListener("input",()=>paintChip(inp)));
 }
 function buildFormLoc(){
   document.getElementById("formLoc").innerHTML=LOCATIONS.map(l=>
@@ -960,9 +1018,9 @@ document.getElementById("saveCw").addEventListener("click",()=>{
 
 /* ============ colour datalist ============ */
 const dl=document.createElement("datalist"); dl.id="colorList";
-// value = the name that lands in the field; label = the in-game colour ID
+// value = the name that lands in the field; label = the ID, flagged if mutation-only
 dl.innerHTML=ARK_COLORS.map(c=>
-  `<option value="${esc(c.name)}" label="ID ${c.id}"></option>`).join("");
+  `<option value="${esc(c.name)}" label="ID ${c.id}${c.dye?" · mutation":""}"></option>`).join("");
 document.body.appendChild(dl);
 
 /* Typing a bare ID is the fast path — he reads "27" off the dino in game.
