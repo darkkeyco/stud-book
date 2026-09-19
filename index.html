@@ -523,7 +523,7 @@ const DEFAULT_CW=[
    Row-level security keys every read and write to it: no key, no rows. */
 const SUPABASE_URL="https://pjmrvstaopgeuhumwmbo.supabase.co";
 const SUPABASE_KEY="sb_publishable_XpF8efH4KDyscAdwCD5MOw_THE8ctj0";
-const LS_S="cwsb.studs", LS_C="cwsb.colorways", LS_K="cwsb.key";
+const LS_S="cwsb.studs", LS_C="cwsb.colorways", LS_K="cwsb.key", LS_CK="cwsb.cachekey";
 
 // A link can pick up damage in transit -- retyped by hand, lower-cased by a
 // chat app, punctuation eaten. Fold every key to the same shape so a mangled
@@ -538,10 +538,14 @@ const BOOK_KEY=readBookKey();
 let sb=null, online=false;
 
 function saveLocal(){ try{
+  localStorage.setItem(LS_CK,BOOK_KEY);
   localStorage.setItem(LS_S,JSON.stringify(studs));
   localStorage.setItem(LS_C,JSON.stringify(colorways));
 }catch(e){} }
 function loadLocal(){ try{
+  // the offline copy belongs to one book. Opening a different key must not
+  // inherit it, or the previous book's lines get written into the new one.
+  if(localStorage.getItem(LS_CK)!==BOOK_KEY) return false;
   const s=localStorage.getItem(LS_S), c=localStorage.getItem(LS_C);
   if(s) studs=JSON.parse(s)||[];
   if(c) colorways=JSON.parse(c)||[];
