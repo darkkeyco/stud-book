@@ -110,27 +110,11 @@ textarea{resize:vertical;min-height:74px;line-height:1.45}
 .hint{font-size:11.5px;color:var(--fog-dim);margin:12px 0 0;max-width:78ch}
 .hint code{font-family:var(--mono);font-size:11px;color:var(--fog)}
 
-/* ---------- readiness ---------- */
-.cwblock{margin-bottom:18px}
-.cwblock:last-child{margin-bottom:0}
-.cwhead{display:flex;align-items:center;gap:10px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--rim)}
-.cwhead .dot{width:11px;height:11px;border-radius:50%;flex:none}
-.cwhead .nm{font-family:var(--display);font-size:15px;letter-spacing:.06em;text-transform:uppercase;line-height:1}
-.cwhead .tally{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--fog-dim)}
-.cwhead .swatches{display:flex;gap:3px}
-.program{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:9px}
-.prog{border:1px solid var(--rim);background:var(--pit2);padding:10px 12px;display:flex;flex-direction:column;gap:7px;border-left:3px solid var(--rim)}
-.prog.ready{border-left-color:var(--claw)}
-.prog.half{border-left-color:var(--amber)}
-.prog .sp{font-family:var(--display);font-size:15px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
-.prog .sexes{display:flex;gap:5px;font-family:var(--mono);font-size:11.5px;flex-wrap:wrap}
-.sexpill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--rim);padding:2px 7px;color:var(--fog-dim)}
-.sexpill.has{color:var(--bone);border-color:var(--claw-deep)}
-.sexpill .m{color:var(--cryo)}
-.sexpill .f{color:#FF7BC4}
-.prog .verdict{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-.prog.ready .verdict{color:var(--claw)}
-.prog.half .verdict{color:var(--amber)}
+/* ---------- colorway fields ---------- */
+.cw .descfield{flex:1 1 320px;min-width:220px}
+.cw .descfield textarea{min-height:52px;font-size:12.5px}
+.cw .tintfield{flex:0 0 auto;max-width:230px}
+.accentdots{display:flex;gap:4px;flex-wrap:wrap;max-width:230px}
 .empty{color:var(--fog-dim);font-size:13px;padding:6px 0;margin:0}
 
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
@@ -171,7 +155,6 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .regs{display:flex;gap:3px}
 .reg{width:15px;height:15px;border-radius:2px;border:1px solid #ffffff26;flex:none;position:relative}
 .reg.blank{border-style:dashed;border-color:#33403366;background:transparent}
-.reg.hit{box-shadow:0 0 0 1px currentColor,0 0 7px currentColor}
 /* a mutation-only colour wears a pip in the corner */
 .reg.dye::after,.chip.dye::after{
   content:"";position:absolute;top:-3px;right:-3px;width:6px;height:6px;border-radius:50%;
@@ -251,25 +234,20 @@ legend{padding:0 6px}
 <section class="panel">
   <div class="ph">
     <h2>Colorways</h2>
-    <span class="sub">the target pattern for each line — regions left blank count as "any"</span>
+    <span class="sub">what each line is going for, in his own words</span>
     <span class="spacer"></span>
     <button class="btn sm" id="addCw">+ Add colorway</button>
     <button class="btn sm primary" id="saveCw">Save</button>
+    <button class="btn sm" id="cwToggle" aria-expanded="true" aria-controls="cwBody">Minimise</button>
   </div>
-  <div class="pbody">
+  <div class="pbody" id="cwBody">
     <div class="cwlist" id="cwlist"></div>
-    <p class="hint">Type the ARK colour ID straight off the dino (<code>27</code>) or the name (<code>Dino Dark Green</code>) — the dropdown shows both, and an ID fills itself in as the name. All 227 game colours are in there with their own sRGB values. A stud's regions glow in its line's colour when they hit the target.</p>
+    <p class="hint">Describe each line however he thinks about it. A colorway is a look, not a fixed six-region recipe, so this is free text.</p>
+
     <p class="leg"><span class="reg dye"></span> A pip marks a mutation-only colour — IDs 128&ndash;254 never appear on a wild creature, so a region wearing one came from a colour mutation.</p>
   </div>
 </section>
 
-<section class="panel">
-  <div class="ph">
-    <h2>Pair Readiness</h2>
-    <span class="sub">by line, then species — assigned stock only</span>
-  </div>
-  <div class="pbody" id="readiness"></div>
-</section>
 
 <div class="filters">
   <input type="search" id="q" placeholder="Search species, tag, notes…" aria-label="Search studs">
@@ -331,7 +309,6 @@ legend{padding:0 6px}
         <label>Tint</label>
         <div class="accentdots" id="newCwAcc"></div>
       </div>
-      <label class="checkline" id="seedLine"><input type="checkbox" id="newCwSeed"> Use this dino's colours as the target pattern</label>
       <div class="newcwbtns">
         <button type="button" class="btn sm" id="newCwCancel">Cancel</button>
         <button type="button" class="btn sm primary" id="newCwCreate">Create line</button>
@@ -468,7 +445,7 @@ function resolveColor(v){
 const ASA_SPECIES=["Achatina","Acrocanthosaurus","Allosaurus","Amargasaurus","Andrewsarchus","Anglerfish","Ankylosaurus","Araneo","Archaeopteryx","Archelon","Argentavis","Armadoggo","Arthropluera","Astrocetus","Astrodelphis","Aureliax","Autumn Drakeling","Baryonyx","Basilisk","Basilosaurus","Beelzebufo","Bison","Bloodstalker","Boaratos","Brontosaurus","Bulbdog","Burrowbuck","Carbonemys","Carcharodontosaurus","Carnotaurus","Castoroides","Cat","Ceratosaurus","Chalicotherium","Compy","Concavenator","Cosmo","Cryolophosaurus","Daeodon","Deinonychus","Deinosuchus","Deinotherium","Desmodus","Dilophosaur","Dimetrodon","Dimorphodon","Dinopithecus","Diplocaulus","Diplodocus","Dire Bear","Direwolf","Dodo","Doedicurus","Dreadmare","Dreadnoughtus","Dung Beetle","Dunkleosteus","Elderclaw","Electrophorus","Equus","Fasolasuchus","Featherlight","Ferox","Fire Wyvern","Gacha","Gallimimus","Gasbags","Giant Queen Bee","Gigadesmodus","Giganotosaurus","Gigantopithecus","Gigantoraptor","Gloon","Glowtail","Grand Tortugar","Griffin","Helicoprion","Hesperornis","Hyaenodon","Ice Wyvern","Ichthyornis","Ichthyosaurus","Iguanodon","Jerboa","Kairuku","Kaprosuchus","Karkinos","Kentrosaurus","Lightning Wyvern","Liopleurodon","Lumina","Lymantria","Lystrosaurus","Maeguana","Maewing","Magmasaur","Malwyn","Mammoth","Managarmr","Manta","Mantis","Megachelon","Megalania","Megaloceros","Megalodon","Megalosaurus","Meganeura","Megaraptor","Megatherium","Mesopithecus","Microraptor","Morellatops","Mosasaurus","Moschops","Noglin","Oasisaur","Onyc","Ossidon","Otter","Oviraptor","Ovis","Pachy","Pachyrhinosaurus","Paraceratherium","Parasaur","Parrot","Pegomastax","Pelagornis","Phiomia","Phoenix","Plesiosaur","Poison Wyvern","Procoptodon","Pteranodon","Pulmonoscorpius","Purlovia","Pyromane","Quetzal","Raptor","Ravager","Reaper King","Rex","Rhyniognatha","Rock Drake","Rock Elemental","Roll Rat","Sabertooth","Sarco","Shadowmane","Shastasaurus","Shinehorn","Sinomacrops","Snow Owl","Solwyn","Spino","Spring Drakeling","Stegosaurus","Summer Drakeling","Tapejara","Tek Stryder","Terror Bird","Therizinosaur","Thorny Dragon","Thylacoleo","Tidepup","Titanoboa","Titanosaur","Triceratops","Troodon","Tropeognathus","Tusoteuthis","Umbra","Veilwyn","Velonasaur","Voidwyrm","Vulture","Winter Drakeling","Woolly Rhino","Xiphactinus","Yi Ling","Yutyrannus"];
 
 /* Variants count as separate species -- Original, Tek, Aberrant and X cannot
-   cross-breed, so each one gets its own entry and its own pair-readiness row.
+   cross-breed, so each one gets its own entry and its own roster group.
    R variants arrive with Genesis Part 2; add an R_VARIANT list here when they do. */
 /* creatures with an Aberrant form */
 const ABERRANT_OF=["Achatina","Anglerfish","Ankylosaurus","Araneo","Arthropluera","Baryonyx","Beelzebufo","Carbonemys","Carnotaurus","Concavenator","Deinosuchus","Dimetrodon","Dimorphodon","Diplocaulus","Diplodocus","Dire Bear","Dodo","Doedicurus","Dung Beetle","Electrophorus","Equus","Fasolasuchus","Gigantopithecus","Gigantoraptor","Iguanodon","Lystrosaurus","Manta","Megalania","Megalosaurus","Meganeura","Moschops","Otter","Oviraptor","Ovis","Paraceratherium","Parasaur","Pulmonoscorpius","Purlovia","Raptor","Sarco","Spino","Stegosaurus","Titanoboa","Triceratops"];
@@ -484,7 +461,10 @@ const ALL_SPECIES=[...ASA_SPECIES,
 
 const REGION_LABELS=["Region 0","Region 1","Region 2","Region 3","Region 4","Region 5"];
 const LOCATIONS=["Cryo","OnlyMans","OnlyMans Aquatic","OnlyMans Drachennest"];
-const ACCENTS=["#A4E82E","#5CC9FF","#FF7BC4","#FFB020","#B98BFF","#FF6A3D","#3FE0C0","#E8F06A"];
+// Tints are real ARK colours, so a line's swatch can actually resemble the
+// creatures in it. Ids refer to the colour table above.
+const ACCENT_IDS=[83,3,84,88,26,59,5,96,95,187,2,54,203,91,211,68,220,212,1,74,75,244,245,4,15,239,230,233,224,97];
+const ACCENTS=ACCENT_IDS.map(id=>BY_ID.get(id).hex);
 
 function colorHex(v){
   const c=resolveColor(v);
@@ -533,7 +513,7 @@ const openGroups=new Set();
 let editingId=null;
 
 const DEFAULT_CW=[
-  {id:"monster",name:"Monster",accent:"#A4E82E",regions:["Dino Dark Green","Black","Dino Dark Green","Black","LemonLime","Black"]}
+  {id:"monster",name:"Monster",accent:"#A4E82E",description:""}
 ];
 
 
@@ -545,10 +525,14 @@ const SUPABASE_URL="https://pjmrvstaopgeuhumwmbo.supabase.co";
 const SUPABASE_KEY="sb_publishable_XpF8efH4KDyscAdwCD5MOw_THE8ctj0";
 const LS_S="cwsb.studs", LS_C="cwsb.colorways", LS_K="cwsb.key";
 
+// A link can pick up damage in transit -- retyped by hand, lower-cased by a
+// chat app, punctuation eaten. Fold every key to the same shape so a mangled
+// link still opens the same book instead of silently starting an empty one.
+const normKey=k=>String(k||"").toLowerCase().replace(/[^a-z0-9]/g,"");
 function readBookKey(){
   const m=(location.hash||"").match(/[#&]k=([A-Za-z0-9_-]{8,64})/);
-  if(m){ try{ localStorage.setItem(LS_K,m[1]); }catch(e){} return m[1]; }
-  try{ return localStorage.getItem(LS_K)||""; }catch(e){ return ""; }
+  if(m){ const k=normKey(m[1]); try{ localStorage.setItem(LS_K,k); }catch(e){} return k; }
+  try{ return normKey(localStorage.getItem(LS_K)||""); }catch(e){ return ""; }
 }
 const BOOK_KEY=readBookKey();
 let sb=null, online=false;
@@ -605,7 +589,7 @@ async function persistColorways(){
   if(!sb) return;
   const rows=colorways.map((c,i)=>({
     book_key:BOOK_KEY, id:c.id, name:c.name||"", accent:c.accent||"#A4E82E",
-    regions:c.regions||[], ord:i
+    description:c.description||"", ord:i
   }));
   const keep=rows.map(r=>r.id);
   const {error}=await sb.from("colorways").upsert(rows);
@@ -631,7 +615,7 @@ async function pullAll(quiet){
   studs=(sr.data||[]).map(studOf);
   if((cr.data||[]).length){
     colorways=cr.data.map(r=>({id:r.id,name:r.name,accent:r.accent,
-      regions:Array.isArray(r.regions)?r.regions:["","","","","",""]}));
+      description:r.description||""}));
   }
   saveLocal(); renderColorways(); render();
   if(!quiet) setStatus("Synced");
@@ -639,16 +623,6 @@ async function pullAll(quiet){
 
 /* ============ derived ============ */
 const cwById=id=>colorways.find(c=>c.id===id)||null;
-function targetCount(cw){ return cw?cw.regions.filter(r=>ckey(r)).length:0; }
-function matchCount(s){
-  const cw=cwById(s.cw); if(!cw) return 0;
-  let hits=0;
-  for(let i=0;i<6;i++){
-    const t=ckey(cw.regions[i]); if(!t) continue;
-    if(ckey((s.colors||[])[i])===t) hits++;
-  }
-  return hits;
-}
 function bySpecies(list){
   const map=new Map();
   list.forEach(s=>{
@@ -662,17 +636,11 @@ const hasPair=l=>l.some(s=>s.sex==="M")&&l.some(s=>s.sex==="F");
 
 /* ============ stats ============ */
 function renderStats(){
-  let ready=0, gaps=0;
-  colorways.forEach(cw=>{
-    bySpecies(studs.filter(s=>s.cw===cw.id)).forEach(([,l])=>{ hasPair(l)?ready++:gaps++; });
-  });
   const inCryo=studs.filter(s=>s.location==="Cryo").length;
   document.getElementById("stats").innerHTML=`
     <div class="stat"><b>${studs.length}</b><span>Studs on the book</span></div>
     <div class="stat"><b>${new Set(studs.map(s=>s.species||"Unlisted")).size}</b><span>Species</span></div>
     <div class="stat"><b>${colorways.length}</b><span>Colorways</span></div>
-    <div class="stat"><b>${ready}</b><span>Pairs ready</span></div>
-    <div class="stat warn"><b>${gaps}</b><span>Lines missing a mate</span></div>
     <div class="stat cool"><b>${inCryo}</b><span>Sitting in cryo</span></div>`;
 }
 
@@ -680,7 +648,7 @@ function renderStats(){
 function renderColorways(){
   const el=document.getElementById("cwlist");
   if(!colorways.length){
-    el.innerHTML=`<div class="cw"><p class="empty">No colorways yet. Add one and give it a target pattern.</p></div>`;
+    el.innerHTML=`<div class="cw"><p class="empty">No colorways yet. Add one and describe the look he's breeding for.</p></div>`;
     return;
   }
   el.innerHTML=colorways.map((cw,ci)=>`
@@ -689,20 +657,14 @@ function renderColorways(){
         <label for="cwn${ci}">Line name</label>
         <input id="cwn${ci}" class="cwname" data-ci="${ci}" value="${esc(cw.name)}" placeholder="Monster">
       </div>
-      <div class="regstrip">
-        ${REGION_LABELS.map((lab,i)=>{
-          const hex=colorHex(cw.regions[i]);
-          return `<div class="regfield">
-            <label for="cwr${ci}_${i}">${lab.replace("Region ","R")}</label>
-            <div class="swatchwrap">
-              <span class="chip" style="background:${hex||"transparent"};${hex?"":"border-style:dashed"}"></span>
-              <input id="cwr${ci}_${i}" class="cwreg" data-ci="${ci}" data-ri="${i}" list="colorList" value="${esc(cw.regions[i]||"")}" placeholder="any">
-            </div></div>`;
-        }).join("")}
+      <div class="regfield descfield">
+        <label for="cwd${ci}">What the look is</label>
+        <textarea id="cwd${ci}" class="cwdesc" data-ci="${ci}" rows="2"
+          placeholder="Dark green body, black legs and face, acid-green highlights. Varies a bit by species.">${esc(cw.description||"")}</textarea>
       </div>
-      <div class="regfield" style="flex:0 0 auto">
+      <div class="regfield tintfield">
         <label>Tint</label>
-        <div class="accentdots">${ACCENTS.map(a=>
+        <div class="accentdots">${[...new Set([cw.accent,...ACCENTS])].map(a=>
           `<button type="button" class="cwacc" data-ci="${ci}" data-acc="${a}" style="background:${a};color:${a}" aria-pressed="${cw.accent===a}" aria-label="Tint ${a}"></button>`).join("")}</div>
       </div>
       <button type="button" class="btn sm danger cwdel" data-ci="${ci}">Remove</button>
@@ -711,9 +673,8 @@ function renderColorways(){
   el.querySelectorAll(".cwname").forEach(inp=>inp.addEventListener("input",e=>{
     colorways[+e.target.dataset.ci].name=e.target.value;
   }));
-  el.querySelectorAll(".cwreg").forEach(inp=>inp.addEventListener("input",e=>{
-    colorways[+e.target.dataset.ci].regions[+e.target.dataset.ri]=e.target.value;
-    paintChip(e.target);
+  el.querySelectorAll(".cwdesc").forEach(inp=>inp.addEventListener("input",e=>{
+    colorways[+e.target.dataset.ci].description=e.target.value;
   }));
   el.querySelectorAll(".cwacc").forEach(b=>b.addEventListener("click",()=>{
     colorways[+b.dataset.ci].accent=b.dataset.acc;
@@ -729,40 +690,6 @@ function renderColorways(){
   }));
 }
 
-/* ============ readiness ============ */
-function renderReadiness(){
-  const el=document.getElementById("readiness");
-  if(!colorways.length){ el.innerHTML=`<p class="empty">Add a colorway above and assign studs to it.</p>`; return; }
-  el.innerHTML=colorways.map(cw=>{
-    const groups=bySpecies(studs.filter(s=>s.cw===cw.id));
-    const ready=groups.filter(([,l])=>hasPair(l)).length;
-    const swatches=cw.regions.map((r,i)=>{
-      const hex=colorHex(r);
-      return `<span class="reg ${hex?"":"blank"} ${isDye(r)?"dye":""}" style="${hex?"background:"+hex:""};width:11px;height:11px" title="${esc(REGION_LABELS[i]+": "+(r?colorLabel(r):"any"))}"></span>`;
-    }).join("");
-    const body=groups.length?`<div class="program">${groups.map(([sp,list])=>{
-      const males=list.filter(s=>s.sex==="M"), females=list.filter(s=>s.sex==="F");
-      const cls=males.length&&females.length?"ready":"half";
-      const verdict=cls==="ready"?"Pair ready":(males.length?"Needs a female":"Needs a male");
-      const bestM=males.length?Math.max(...males.map(s=>+s.level||0)):0;
-      const bestF=females.length?Math.max(...females.map(s=>+s.level||0)):0;
-      return `<div class="prog ${cls}">
-        <span class="sp">${esc(sp)}</span>
-        <div class="sexes">
-          <span class="sexpill ${males.length?"has":""}"><span class="m">&#9794;</span> ${males.length}${bestM?" &middot; lv "+bestM:""}</span>
-          <span class="sexpill ${females.length?"has":""}"><span class="f">&#9792;</span> ${females.length}${bestF?" &middot; lv "+bestF:""}</span>
-        </div>
-        <span class="verdict">${verdict}</span></div>`;
-    }).join("")}</div>`:`<p class="empty">Nothing assigned to this line yet.</p>`;
-    return `<div class="cwblock">
-      <div class="cwhead">
-        <span class="dot" style="background:${cw.accent}"></span>
-        <span class="nm">${esc(cw.name||"Unnamed line")}</span>
-        <span class="swatches">${swatches}</span>
-        <span class="tally">${ready}/${groups.length||0} species paired</span>
-      </div>${body}</div>`;
-  }).join("");
-}
 
 /* ============ roster ============ */
 function passesFilters(s){
@@ -801,12 +728,10 @@ function renderRoster(){
     const lines=[...new Set(items.map(s=>s.cw).filter(Boolean))].map(cwById).filter(Boolean);
 
     const rows=sorted.map(s=>{
-      const cw=cwById(s.cw), t=targetCount(cw), hits=matchCount(s);
-      const accent=cw?cw.accent:"var(--claw)";
+      const cw=cwById(s.cw);
       const regs=REGION_LABELS.map((_,i)=>{
         const v=(s.colors||[])[i], hex=colorHex(v);
-        const hit=cw&&ckey(cw.regions[i])&&ckey(v)===ckey(cw.regions[i]);
-        return `<span class="reg ${hex?"":"blank"} ${hit?"hit":""} ${isDye(v)?"dye":""}" style="${hex?"background:"+hex+";":""}${hit?"color:"+accent:""}" title="${esc(REGION_LABELS[i]+": "+(v?colorLabel(v):"unset"))}"></span>`;
+        return `<span class="reg ${hex?"":"blank"} ${isDye(v)?"dye":""}" style="${hex?"background:"+hex+";":""}" title="${esc(REGION_LABELS[i]+": "+(v?colorLabel(v):"unset"))}"></span>`;
       }).join("");
       return `<tr>
         <td><strong>${esc(s.name||"—")}</strong></td>
@@ -814,7 +739,6 @@ function renderRoster(){
         <td class="num"><span class="sex-${s.sex==="F"?"f":"m"}">${s.sex==="F"?"&#9792;":"&#9794;"}</span></td>
         <td class="num">${s.level?esc(s.level):"—"}</td>
         <td><div class="regs">${regs}</div></td>
-        <td class="num">${t?hits+"/"+t:"—"}</td>
         <td><span class="loc ${s.location==="Cryo"?"cryoloc":""}">${esc(s.location||"—")}</span></td>
         <td><div class="note">${esc(s.notes||"")}</div></td>
         <td><div class="rowbtns">
@@ -837,7 +761,7 @@ function renderRoster(){
         </span>
       </summary>
       <div class="tablewrap"><table>
-        <thead><tr><th>Tag</th><th>Line</th><th>Sex</th><th>Level</th><th>Regions 0–5</th><th>Match</th><th>Location</th><th>Notes</th><th></th></tr></thead>
+        <thead><tr><th>Tag</th><th>Line</th><th>Sex</th><th>Level</th><th>Regions 0–5</th><th>Location</th><th>Notes</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table></div></details>`;
   }).join("");
@@ -869,7 +793,7 @@ function renderCwSelects(){
   fc.value=(keep==="__new"&&box&&box.hidden)?"":keep;
 }
 function render(){
-  renderStats(); renderReadiness(); renderRoster(); renderSpeciesList(); renderCwSelects();
+  renderStats(); renderRoster(); renderSpeciesList(); renderCwSelects();
 }
 
 /* ============ editor ============ */
@@ -970,10 +894,6 @@ document.getElementById("f_cw").addEventListener("change",e=>{
   if(e.target.value!=="__new"){ closeNewCw(); return; }
   newCwAccent=ACCENTS[colorways.length%ACCENTS.length];
   paintAccentPicker();
-  // only offer to seed the pattern when this dino actually has colours entered
-  const anyColour=REGION_LABELS.some((_,i)=>document.getElementById("fc"+i).value.trim());
-  document.getElementById("seedLine").hidden=!anyColour;
-  document.getElementById("newCwSeed").checked=anyColour;
   newCwBox.hidden=false;
   document.getElementById("newCwName").focus();
 });
@@ -989,16 +909,12 @@ document.getElementById("newCwCreate").addEventListener("click",()=>{
     alert(`There's already a line called ${name}. Pick it from the dropdown instead.`);
     nameEl.focus(); return;
   }
-  const seed=document.getElementById("newCwSeed").checked && !document.getElementById("seedLine").hidden;
-  const cw={
-    id:uid("cw"), name, accent:newCwAccent,
-    regions:REGION_LABELS.map((_,i)=>seed?document.getElementById("fc"+i).value.trim():"")
-  };
+  const cw={ id:uid("cw"), name, accent:newCwAccent, description:"" };
   colorways.push(cw);
   persistColorways(); renderColorways(); renderCwSelects();
   document.getElementById("f_cw").value=cw.id;
   closeNewCw();
-  renderStats(); renderReadiness();
+  renderStats();
 });
 document.getElementById("newCwName").addEventListener("keydown",e=>{
   if(e.key==="Enter"){ e.preventDefault(); document.getElementById("newCwCreate").click(); }
@@ -1022,8 +938,22 @@ document.getElementById("gapOnly").addEventListener("click",e=>{
   e.currentTarget.setAttribute("aria-pressed",String(filters.gap));
   renderRoster();
 });
+// the colorway panel folds away once the lines are set
+const LS_CWFOLD="cwsb.cwfold";
+const cwBody=document.getElementById("cwBody"), cwToggle=document.getElementById("cwToggle");
+function setCwFold(folded){
+  cwBody.hidden=folded;
+  cwToggle.textContent=folded?"Show":"Minimise";
+  cwToggle.setAttribute("aria-expanded",String(!folded));
+  document.getElementById("addCw").hidden=folded;
+  document.getElementById("saveCw").hidden=folded;
+  try{ localStorage.setItem(LS_CWFOLD,folded?"1":"0"); }catch(e){}
+}
+cwToggle.addEventListener("click",()=>setCwFold(!cwBody.hidden));
+try{ setCwFold(localStorage.getItem(LS_CWFOLD)==="1"); }catch(e){ setCwFold(false); }
+
 document.getElementById("addCw").addEventListener("click",()=>{
-  colorways.push({id:uid("cw"),name:"New line",accent:ACCENTS[colorways.length%ACCENTS.length],regions:["","","","","",""]});
+  colorways.push({id:uid("cw"),name:"New line",accent:ACCENTS[colorways.length%ACCENTS.length],description:""});
   persistColorways(); renderColorways(); render();
 });
 document.getElementById("saveCw").addEventListener("click",()=>{
@@ -1051,14 +981,14 @@ document.addEventListener("blur",e=>{
 
 /* ============ CSV ============ */
 function toCSV(){
-  const head=["Species","Tag","Colorway","Sex","Level","Region 0","Region 1","Region 2","Region 3","Region 4","Region 5","Pattern match","Location","Notes"];
+  const head=["Species","Tag","Colorway","Sex","Level","Region 0","Region 1","Region 2","Region 3","Region 4","Region 5","Location","Notes"];
   const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
   const rows=[...studs].sort((a,b)=>(a.species||"").localeCompare(b.species||"")||(+b.level||0)-(+a.level||0))
     .map(s=>{
-      const cw=cwById(s.cw), t=targetCount(cw);
+      const cw=cwById(s.cw);
       return [s.species,s.name,cw?cw.name:"",s.sex,s.level,
         ...REGION_LABELS.map((_,i)=>colorLabel((s.colors||[])[i])),
-        t?matchCount(s)+"/"+t:"",s.location,s.notes].map(q).join(",");
+        s.location,s.notes].map(q).join(",");
     });
   return [head.map(q).join(","),...rows].join("\r\n");
 }
