@@ -509,7 +509,21 @@ let studs=[];
 let colorways=[];
 let db=null;
 const filters={q:"",cw:"",sex:"",sort:"level",locs:new Set(),gap:false};
-const openGroups=new Set();
+// Which species groups are expanded, remembered per book so a reload, a
+// background refresh, or collapsing the last one all leave it where he put it.
+const LS_OPEN="cwsb.open";
+let openGroups=new Set();
+(function loadOpenGroups(){
+  try{
+    const raw=localStorage.getItem(LS_OPEN);
+    if(!raw) return;
+    const v=JSON.parse(raw);
+    if(v&&v.k===BOOK_KEY&&Array.isArray(v.g)) openGroups=new Set(v.g);
+  }catch(e){}
+})();
+function saveOpenGroups(){
+  try{ localStorage.setItem(LS_OPEN,JSON.stringify({k:BOOK_KEY,g:[...openGroups]})); }catch(e){}
+}
 let editingId=null;
 
 const DEFAULT_CW=[
@@ -718,7 +732,6 @@ function renderRoster(){
     }</p></div></div>`;
     return;
   }
-  if(!openGroups.size) openGroups.add(groups.slice().sort((a,b)=>b[1].length-a[1].length)[0][0]);
 
   el.innerHTML=groups.map(([sp,items])=>{
     const sorted=[...items].sort((a,b)=>{
@@ -772,6 +785,7 @@ function renderRoster(){
 
   el.querySelectorAll("details.group").forEach(d=>d.addEventListener("toggle",()=>{
     d.open?openGroups.add(d.dataset.sp):openGroups.delete(d.dataset.sp);
+    saveOpenGroups();
   }));
   el.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>openEditor(b.dataset.edit)));
   el.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
@@ -866,7 +880,7 @@ function saveFromForm(){
     notes:document.getElementById("f_notes").value.trim(),
     added:prev?prev.added||Date.now():Date.now()
   };
-  openGroups.add(species);
+  openGroups.add(species); saveOpenGroups();
   persistStud(rec);
   dlg.close();
 }
